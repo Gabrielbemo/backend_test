@@ -1,5 +1,4 @@
 # Teste Prático ⚙️
-
 ## _Este é um teste prático para desenvolvedor Backend_
 
 Olá, tudo bem? Vc está recebendo um teste prático para vaga de backend Java e Nodejs.

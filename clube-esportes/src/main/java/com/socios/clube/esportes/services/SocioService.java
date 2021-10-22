@@ -19,4 +19,16 @@ public class SocioService {
         socioRepository.save(socio);
         return socioRepository.getById(socio.getId());
     }
+
+    public void update(final Socio socio){
+        Socio socioBeforeUpdate = socioRepository.getById(socio.getId());
+        socioBeforeUpdate.setName(socio.getName());
+        socioBeforeUpdate.setLastName(socio.getLastName());
+        socioBeforeUpdate.setEmail(socio.getEmail());
+        socioBeforeUpdate.setAddress(socio.getAddress());
+        socioBeforeUpdate.setBirthDate(socio.getBirthDate());
+        socioBeforeUpdate.setPhone(socio.getPhone());
+
+        socioRepository.save(socioBeforeUpdate);
+    }
 }

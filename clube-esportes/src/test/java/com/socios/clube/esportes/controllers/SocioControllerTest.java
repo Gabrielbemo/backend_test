@@ -40,6 +40,8 @@ public class SocioControllerTest {
     @Mock
     private SocioService socioService;
 
+    CreateSocioRequestDTO createSocioRequestDTO;
+
     @BeforeEach
     public void setup(){
         mockMvc = MockMvcBuilders
@@ -48,11 +50,8 @@ public class SocioControllerTest {
 
         objectMapper = new ObjectMapper()
                 .registerModule(new JavaTimeModule());
-    }
 
-    @Test
-    public void when_createWithSuccess_expect_statusCreated() throws Exception {
-        CreateSocioRequestDTO createSocioRequestDTO = CreateSocioRequestDTO.builder()
+        createSocioRequestDTO = CreateSocioRequestDTO.builder()
                 .name("gabriel")
                 .lastName("moura")
                 .birthDate(LocalDateTime.now())
@@ -60,7 +59,10 @@ public class SocioControllerTest {
                 .phone("(00)0000-0000")
                 .address("Brazil America do Sul")
                 .build();
+    }
 
+    @Test
+    public void when_createWithSuccess_expect_statusCreated() throws Exception {
         Socio socio = createSocioRequestDTO.toEntity();
 
         when(socioService.create(isA(Socio.class)))
@@ -81,18 +83,9 @@ public class SocioControllerTest {
 
     @Test
     public void when_createWithEmptyName_expect_statusBadRequest() throws Exception {
-        CreateSocioRequestDTO createSocioRequestDTO = CreateSocioRequestDTO.builder()
-                .name("")
-                .lastName("moura")
-                .birthDate(LocalDateTime.now())
-                .email("gabriel123@gmail.com")
-                .phone("(00)0000-0000")
-                .address("Brazil America do Sul")
-                .build();
+        createSocioRequestDTO.setName("");
 
-        Socio socio = createSocioRequestDTO.toEntity();
-
-        MvcResult result = mockMvc.perform(post("/socios/")
+        mockMvc.perform(post("/socios/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createSocioRequestDTO)))
                 .andExpect(status().isBadRequest())
@@ -102,18 +95,9 @@ public class SocioControllerTest {
 
     @Test
     public void when_createWithEmptyLastName_expect_statusBadRequest() throws Exception {
-        CreateSocioRequestDTO createSocioRequestDTO = CreateSocioRequestDTO.builder()
-                .name("gabriel")
-                .lastName("")
-                .birthDate(LocalDateTime.now())
-                .email("gabriel123@gmail.com")
-                .phone("(00)0000-0000")
-                .address("Brazil America do Sul")
-                .build();
+        createSocioRequestDTO.setLastName("");
 
-        Socio socio = createSocioRequestDTO.toEntity();
-
-        MvcResult result = mockMvc.perform(post("/socios/")
+        mockMvc.perform(post("/socios/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createSocioRequestDTO)))
                 .andExpect(status().isBadRequest())
@@ -122,18 +106,9 @@ public class SocioControllerTest {
 
     @Test
     public void when_createWithEmptyEmail_expect_statusBadRequest() throws Exception {
-        CreateSocioRequestDTO createSocioRequestDTO = CreateSocioRequestDTO.builder()
-                .name("gabriel")
-                .lastName("moura")
-                .birthDate(LocalDateTime.now())
-                .email("")
-                .phone("(00)0000-0000")
-                .address("Brazil America do Sul")
-                .build();
+        createSocioRequestDTO.setEmail("");
 
-        Socio socio = createSocioRequestDTO.toEntity();
-
-        MvcResult result = mockMvc.perform(post("/socios/")
+        mockMvc.perform(post("/socios/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createSocioRequestDTO)))
                 .andExpect(status().isBadRequest())
@@ -142,18 +117,9 @@ public class SocioControllerTest {
 
     @Test
     public void when_createWithEmptyPhone_expect_statusBadRequest() throws Exception {
-        CreateSocioRequestDTO createSocioRequestDTO = CreateSocioRequestDTO.builder()
-                .name("gabriel")
-                .lastName("moura")
-                .birthDate(LocalDateTime.now())
-                .email("gabriel123@gmail.com")
-                .phone("")
-                .address("Brazil America do Sul")
-                .build();
+        createSocioRequestDTO.setPhone("");
 
-        Socio socio = createSocioRequestDTO.toEntity();
-
-        MvcResult result = mockMvc.perform(post("/socios/")
+        mockMvc.perform(post("/socios/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createSocioRequestDTO)))
                 .andExpect(status().isBadRequest())
@@ -162,18 +128,9 @@ public class SocioControllerTest {
 
     @Test
     public void when_createWithEmptyAddress_expect_statusBadRequest() throws Exception {
-        CreateSocioRequestDTO createSocioRequestDTO = CreateSocioRequestDTO.builder()
-                .name("gabriel")
-                .lastName("moura")
-                .birthDate(LocalDateTime.now())
-                .email("gabriel123@gmail.com")
-                .phone("(00)0000-0000")
-                .address("")
-                .build();
+        createSocioRequestDTO.setAddress("");
 
-        Socio socio = createSocioRequestDTO.toEntity();
-
-        MvcResult result = mockMvc.perform(post("/socios/")
+        mockMvc.perform(post("/socios/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createSocioRequestDTO)))
                 .andExpect(status().isBadRequest())
@@ -182,18 +139,9 @@ public class SocioControllerTest {
 
     @Test
     public void when_createWithNullName_expect_statusBadRequest() throws Exception {
-        CreateSocioRequestDTO createSocioRequestDTO = CreateSocioRequestDTO.builder()
-                .name(null)
-                .lastName("moura")
-                .birthDate(LocalDateTime.now())
-                .email("gabriel123@gmail.com")
-                .phone("(00)0000-0000")
-                .address("Brazil America do Sul")
-                .build();
+        createSocioRequestDTO.setName(null);
 
-        Socio socio = createSocioRequestDTO.toEntity();
-
-        MvcResult result = mockMvc.perform(post("/socios/")
+        mockMvc.perform(post("/socios/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createSocioRequestDTO)))
                 .andExpect(status().isBadRequest())
@@ -203,18 +151,9 @@ public class SocioControllerTest {
 
     @Test
     public void when_createWithNullLastName_expect_statusBadRequest() throws Exception {
-        CreateSocioRequestDTO createSocioRequestDTO = CreateSocioRequestDTO.builder()
-                .name("gabriel")
-                .lastName(null)
-                .birthDate(LocalDateTime.now())
-                .email("gabriel123@gmail.com")
-                .phone("(00)0000-0000")
-                .address("Brazil America do Sul")
-                .build();
+        createSocioRequestDTO.setLastName(null);
 
-        Socio socio = createSocioRequestDTO.toEntity();
-
-        MvcResult result = mockMvc.perform(post("/socios/")
+        mockMvc.perform(post("/socios/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createSocioRequestDTO)))
                 .andExpect(status().isBadRequest())
@@ -223,18 +162,9 @@ public class SocioControllerTest {
 
     @Test
     public void when_createWithNullBirthDate_expect_statusBadRequest() throws Exception {
-        CreateSocioRequestDTO createSocioRequestDTO = CreateSocioRequestDTO.builder()
-                .name("gabriel")
-                .lastName("moura")
-                .birthDate(null)
-                .email("gabriel123@gmail.com")
-                .phone("(00)0000-0000")
-                .address("Brazil America do Sul")
-                .build();
+        createSocioRequestDTO.setBirthDate(null);
 
-        Socio socio = createSocioRequestDTO.toEntity();
-
-        MvcResult result = mockMvc.perform(post("/socios/")
+        mockMvc.perform(post("/socios/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createSocioRequestDTO)))
                 .andExpect(status().isBadRequest())
@@ -243,18 +173,9 @@ public class SocioControllerTest {
 
     @Test
     public void when_createWithNullEmail_expect_statusBadRequest() throws Exception {
-        CreateSocioRequestDTO createSocioRequestDTO = CreateSocioRequestDTO.builder()
-                .name("gabriel")
-                .lastName("moura")
-                .birthDate(LocalDateTime.now())
-                .email(null)
-                .phone("(00)0000-0000")
-                .address("Brazil America do Sul")
-                .build();
+        createSocioRequestDTO.setEmail(null);
 
-        Socio socio = createSocioRequestDTO.toEntity();
-
-        MvcResult result = mockMvc.perform(post("/socios/")
+        mockMvc.perform(post("/socios/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createSocioRequestDTO)))
                 .andExpect(status().isBadRequest())
@@ -263,18 +184,9 @@ public class SocioControllerTest {
 
     @Test
     public void when_createWithNullPhone_expect_statusBadRequest() throws Exception {
-        CreateSocioRequestDTO createSocioRequestDTO = CreateSocioRequestDTO.builder()
-                .name("gabriel")
-                .lastName("moura")
-                .birthDate(LocalDateTime.now())
-                .email("gabriel123@gmail.com")
-                .phone(null)
-                .address("Brazil America do Sul")
-                .build();
+        createSocioRequestDTO.setPhone(null);
 
-        Socio socio = createSocioRequestDTO.toEntity();
-
-        MvcResult result = mockMvc.perform(post("/socios/")
+        mockMvc.perform(post("/socios/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createSocioRequestDTO)))
                 .andExpect(status().isBadRequest())
@@ -283,18 +195,153 @@ public class SocioControllerTest {
 
     @Test
     public void when_createWithNullAddress_expect_statusBadRequest() throws Exception {
-        CreateSocioRequestDTO createSocioRequestDTO = CreateSocioRequestDTO.builder()
-                .name("gabriel")
-                .lastName("moura")
-                .birthDate(LocalDateTime.now())
-                .email("gabriel123@gmail.com")
-                .phone("(00)0000-0000")
-                .address(null)
-                .build();
+        createSocioRequestDTO.setAddress(null);
 
-        Socio socio = createSocioRequestDTO.toEntity();
+        mockMvc.perform(post("/socios/")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(createSocioRequestDTO)))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+    }
 
-        MvcResult result = mockMvc.perform(post("/socios/")
+    @Test
+    public void when_updateWithSuccess_expect_statusNoContent() throws Exception {
+        doNothing().when(socioService).update(isA(Socio.class));
+
+        mockMvc.perform(put("/socios/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(createSocioRequestDTO)))
+                .andExpect(status().isNoContent())
+                .andReturn();
+    }
+
+    @Test
+    public void when_updateWithEmptyName_expect_statusBadRequest() throws Exception {
+        createSocioRequestDTO.setName("");
+
+        mockMvc.perform(put("/socios/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(createSocioRequestDTO)))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+    }
+
+    @Test
+    public void when_updateWithEmptyLastName_expect_statusBadRequest() throws Exception {
+        createSocioRequestDTO.setLastName("");
+
+        mockMvc.perform(put("/socios/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(createSocioRequestDTO)))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+    }
+
+    @Test
+    public void when_updateWithEmptyEmail_expect_statusBadRequest() throws Exception {
+        createSocioRequestDTO.setEmail("");
+
+        mockMvc.perform(put("/socios/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(createSocioRequestDTO)))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+    }
+
+    @Test
+    public void when_updateWithEmptyPhone_expect_statusBadRequest() throws Exception {
+        createSocioRequestDTO.setPhone("");
+
+        mockMvc.perform(put("/socios/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(createSocioRequestDTO)))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+    }
+
+    @Test
+    public void when_updateWithEmptyAddress_expect_statusBadRequest() throws Exception {
+        createSocioRequestDTO.setPhone("");
+
+        mockMvc.perform(put("/socios/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(createSocioRequestDTO)))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+    }
+
+    @Test
+    public void when_updateWithNullName_expect_statusBadRequest() throws Exception {
+        createSocioRequestDTO.setName(null);
+
+        mockMvc.perform(put("/socios/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(createSocioRequestDTO)))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+
+    }
+
+    @Test
+    public void when_updateWithNullLastName_expect_statusBadRequest() throws Exception {
+        createSocioRequestDTO.setLastName(null);
+
+        mockMvc.perform(put("/socios/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(createSocioRequestDTO)))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+    }
+
+    @Test
+    public void when_updateWithNullBirthDate_expect_statusBadRequest() throws Exception {
+        createSocioRequestDTO.setBirthDate(null);
+
+        mockMvc.perform(put("/socios/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(createSocioRequestDTO)))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+    }
+
+    @Test
+    public void when_updateWithNullEmail_expect_statusBadRequest() throws Exception {
+        createSocioRequestDTO.setEmail(null);
+
+        mockMvc.perform(put("/socios/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(createSocioRequestDTO)))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+    }
+
+    @Test
+    public void when_updateWithNullPhone_expect_statusBadRequest() throws Exception {
+        createSocioRequestDTO.setPhone(null);
+
+        mockMvc.perform(put("/socios/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(createSocioRequestDTO)))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+    }
+
+    @Test
+    public void when_updateWithNullAddress_expect_statusBadRequest() throws Exception {
+        createSocioRequestDTO.setAddress(null);
+
+        mockMvc.perform(put("/socios/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(createSocioRequestDTO)))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+    }
+
+    @Test
+    public void when_updateWithIncorrectPhone_expect_statusBadRequest() throws Exception {
+        createSocioRequestDTO.setPhone("(00)123456-1234");
+
+        mockMvc.perform(put("/socios/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createSocioRequestDTO)))
                 .andExpect(status().isBadRequest())

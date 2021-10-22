@@ -17,15 +17,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class SocioTest {
     private Validator validator;
 
+    Socio socio;
+
     @BeforeEach
     public void setUp() {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
-    }
 
-    @Test
-    public void when_validationsPassed_then_validationsIsEmpty(){
-        Socio socio = Socio.builder()
+        socio = Socio.builder()
                 .id(1L)
                 .name("gabriel")
                 .lastName("moura")
@@ -34,7 +33,10 @@ public class SocioTest {
                 .phone("(00)0000-0000")
                 .address("Brazil America do Sul")
                 .build();
+    }
 
+    @Test
+    public void when_validationsPassed_then_validationsIsEmpty(){
         Set<ConstraintViolation<Socio>> violations = validator.validate(socio);
 
         assertTrue(violations.isEmpty());
@@ -42,15 +44,7 @@ public class SocioTest {
 
     @Test
     public void when_setIdWithNull_then_validationsIsNotEmpty(){
-        Socio socio = Socio.builder()
-                .id(null)
-                .name("gabriel")
-                .lastName("moura")
-                .birthDate(LocalDateTime.now())
-                .email("gabriel123@gmail.com")
-                .phone("(00)0000-0000")
-                .address("Brazil America do Sul")
-                .build();
+        socio.setId(null);
 
         Set<ConstraintViolation<Socio>> violations = validator.validate(socio);
 
@@ -59,15 +53,7 @@ public class SocioTest {
 
     @Test
     public void when_setNameWithNull_then_validationsIsNotEmpty(){
-        Socio socio = Socio.builder()
-                .id(1L)
-                .name(null)
-                .lastName("moura")
-                .birthDate(LocalDateTime.now())
-                .email("gabriel123@gmail.com")
-                .phone("(00)0000-0000")
-                .address("Brazil America do Sul")
-                .build();
+        socio.setName(null);
 
         Set<ConstraintViolation<Socio>> violations = validator.validate(socio);
 
@@ -76,15 +62,7 @@ public class SocioTest {
 
     @Test
     public void when_setLastNameWithNull_then_validationsIsNotEmpty(){
-        Socio socio = Socio.builder()
-                .id(1L)
-                .name("gabriel")
-                .lastName(null)
-                .birthDate(LocalDateTime.now())
-                .email("gabriel123@gmail.com")
-                .phone("(00)0000-0000")
-                .address("Brazil America do Sul")
-                .build();
+        socio.setLastName(null);
 
         Set<ConstraintViolation<Socio>> violations = validator.validate(socio);
 
@@ -93,15 +71,7 @@ public class SocioTest {
 
     @Test
     public void when_setBirthDateWithNull_then_validationsIsNotEmpty(){
-        Socio socio = Socio.builder()
-                .id(1L)
-                .name("gabriel")
-                .lastName("moura")
-                .birthDate(null)
-                .email("gabriel123@gmail.com")
-                .phone("(00)0000-0000")
-                .address("Brazil America do Sul")
-                .build();
+        socio.setBirthDate(null);
 
         Set<ConstraintViolation<Socio>> violations = validator.validate(socio);
 
@@ -110,15 +80,7 @@ public class SocioTest {
 
     @Test
     public void when_setEmailWithNull_then_validationsIsNotEmpty(){
-        Socio socio = Socio.builder()
-                .id(1L)
-                .name("gabriel")
-                .lastName("moura")
-                .birthDate(LocalDateTime.now())
-                .email(null)
-                .phone("(00)0000-0000")
-                .address("Brazil America do Sul")
-                .build();
+        socio.setEmail(null);
 
         Set<ConstraintViolation<Socio>> violations = validator.validate(socio);
 
@@ -127,15 +89,7 @@ public class SocioTest {
 
     @Test
     public void when_setPhoneWithNull_then_validationsIsNotEmpty(){
-        Socio socio = Socio.builder()
-                .id(1L)
-                .name("gabriel")
-                .lastName("moura")
-                .birthDate(LocalDateTime.now())
-                .email("gabriel123@gmail.com")
-                .phone(null)
-                .address("Brazil America do Sul")
-                .build();
+        socio.setPhone(null);
 
         Set<ConstraintViolation<Socio>> violations = validator.validate(socio);
 
@@ -144,15 +98,7 @@ public class SocioTest {
 
     @Test
     public void when_setAddressWithNull_then_validationsIsNotEmpty(){
-        Socio socio = Socio.builder()
-                .id(1L)
-                .name("gabriel")
-                .lastName("moura")
-                .birthDate(LocalDateTime.now())
-                .email("gabriel123@gmail.com")
-                .phone("(00)0000-0000")
-                .address(null)
-                .build();
+        socio.setAddress(null);
 
         Set<ConstraintViolation<Socio>> violations = validator.validate(socio);
 
@@ -161,15 +107,7 @@ public class SocioTest {
 
     @Test
     public void when_setNameEmpty_then_validationsIsNotEmpty(){
-        Socio socio = Socio.builder()
-                .id(1L)
-                .name("")
-                .lastName("moura")
-                .birthDate(LocalDateTime.now())
-                .email("gabriel123@gmail.com")
-                .phone("(00)0000-0000")
-                .address("Brazil America do Sul")
-                .build();
+        socio.setName("");
 
         Set<ConstraintViolation<Socio>> violations = validator.validate(socio);
 
@@ -178,15 +116,7 @@ public class SocioTest {
 
     @Test
     public void when_setLastNameEmpty_then_validationsIsNotEmpty(){
-        Socio socio = Socio.builder()
-                .id(1L)
-                .name("gabriel")
-                .lastName("")
-                .birthDate(LocalDateTime.now())
-                .email("gabriel123@gmail.com")
-                .phone("(00)0000-0000")
-                .address("Brazil America do Sul")
-                .build();
+        socio.setLastName("");
 
         Set<ConstraintViolation<Socio>> violations = validator.validate(socio);
 
@@ -195,15 +125,7 @@ public class SocioTest {
 
     @Test
     public void when_setEmailEmpty_then_validationsIsNotEmpty(){
-        Socio socio = Socio.builder()
-                .id(1L)
-                .name("gabriel")
-                .lastName("moura")
-                .birthDate(LocalDateTime.now())
-                .email("")
-                .phone("(00)0000-0000")
-                .address("Brazil America do Sul")
-                .build();
+        socio.setEmail("");
 
         Set<ConstraintViolation<Socio>> violations = validator.validate(socio);
 
@@ -212,15 +134,7 @@ public class SocioTest {
 
     @Test
     public void when_setPhoneEmpty_then_validationsIsNotEmpty(){
-        Socio socio = Socio.builder()
-                .id(1L)
-                .name("gabriel")
-                .lastName("moura")
-                .birthDate(LocalDateTime.now())
-                .email("gabriel123@gmail.com")
-                .phone("")
-                .address("Brazil America do Sul")
-                .build();
+        socio.setPhone("");
 
         Set<ConstraintViolation<Socio>> violations = validator.validate(socio);
 
@@ -229,15 +143,7 @@ public class SocioTest {
 
     @Test
     public void when_setAddressEmpty_then_validationsIsNotEmpty(){
-        Socio socio = Socio.builder()
-                .id(1L)
-                .name("gabriel")
-                .lastName("moura")
-                .birthDate(LocalDateTime.now())
-                .email("gabriel123@gmail.com")
-                .phone("(00)0000-0000")
-                .address("")
-                .build();
+        socio.setAddress("");
 
         Set<ConstraintViolation<Socio>> violations = validator.validate(socio);
 
@@ -246,15 +152,7 @@ public class SocioTest {
 
     @Test
     public void when_setPhoneIncorrect_then_validationsIsNotEmpty(){
-        Socio socio = Socio.builder()
-                .id(1L)
-                .name("gabriel")
-                .lastName("moura")
-                .birthDate(LocalDateTime.now())
-                .email("gabriel123@gmail.com")
-                .phone("(12)123456-1234")
-                .address("Brazil America do Sul")
-                .build();
+        socio.setPhone("(14)123456-1234");
 
         Set<ConstraintViolation<Socio>> violations = validator.validate(socio);
 

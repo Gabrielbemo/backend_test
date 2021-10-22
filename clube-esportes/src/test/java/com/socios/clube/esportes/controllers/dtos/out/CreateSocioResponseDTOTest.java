@@ -16,20 +16,22 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class CreateSocioResponseDTOTest {
     private Validator validator;
 
+    CreateSocioResponseDTO createSocioResponseDTO;
+
     @BeforeEach
     public void setUp() {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
-    }
 
-    @Test
-    public void when_validationsPassed_then_validationsIsEmpty(){
-        CreateSocioResponseDTO createSocioResponseDTO = CreateSocioResponseDTO.builder()
+        createSocioResponseDTO = CreateSocioResponseDTO.builder()
                 .name("gabriel")
                 .lastName("moura")
                 .email("gabriel123@gmail.com")
                 .build();
+    }
 
+    @Test
+    public void when_validationsPassed_then_validationsIsEmpty(){
         Set<ConstraintViolation<CreateSocioResponseDTO>> violations = validator.validate(createSocioResponseDTO);
 
         assertTrue(violations.isEmpty());
@@ -37,11 +39,7 @@ public class CreateSocioResponseDTOTest {
 
     @Test
     public void when_setNameWithNull_then_validationsIsNotEmpty(){
-        CreateSocioResponseDTO createSocioResponseDTO = CreateSocioResponseDTO.builder()
-                .name(null)
-                .lastName("moura")
-                .email("gabriel123@gmail.com")
-                .build();
+        createSocioResponseDTO.setName(null);
 
         Set<ConstraintViolation<CreateSocioResponseDTO>> violations = validator.validate(createSocioResponseDTO);
 
@@ -50,11 +48,7 @@ public class CreateSocioResponseDTOTest {
 
     @Test
     public void when_setLastNameWithNull_then_validationsIsNotEmpty(){
-        CreateSocioResponseDTO createSocioResponseDTO = CreateSocioResponseDTO.builder()
-                .name("gabriel")
-                .lastName(null)
-                .email("gabriel123@gmail.com")
-                .build();
+        createSocioResponseDTO.setLastName(null);
 
         Set<ConstraintViolation<CreateSocioResponseDTO>> violations = validator.validate(createSocioResponseDTO);
 
@@ -63,11 +57,7 @@ public class CreateSocioResponseDTOTest {
 
     @Test
     public void when_setEmailWithNull_then_validationsIsNotEmpty(){
-        CreateSocioResponseDTO createSocioResponseDTO = CreateSocioResponseDTO.builder()
-                .name("gabriel")
-                .lastName("moura")
-                .email(null)
-                .build();
+        createSocioResponseDTO.setEmail(null);
 
         Set<ConstraintViolation<CreateSocioResponseDTO>> violations = validator.validate(createSocioResponseDTO);
 
@@ -76,11 +66,7 @@ public class CreateSocioResponseDTOTest {
 
     @Test
     public void when_setNameEmpty_then_validationsIsNotEmpty(){
-        CreateSocioResponseDTO createSocioResponseDTO = CreateSocioResponseDTO.builder()
-                .name("")
-                .lastName("moura")
-                .email("gabriel123@gmail.com")
-                .build();
+        createSocioResponseDTO.setName("");
 
         Set<ConstraintViolation<CreateSocioResponseDTO>> violations = validator.validate(createSocioResponseDTO);
 
@@ -89,11 +75,7 @@ public class CreateSocioResponseDTOTest {
 
     @Test
     public void when_setLastNameEmpty_then_validationsIsNotEmpty(){
-        CreateSocioResponseDTO createSocioResponseDTO = CreateSocioResponseDTO.builder()
-                .name("gabriel")
-                .lastName("")
-                .email("gabriel123@gmail.com")
-                .build();
+        createSocioResponseDTO.setLastName("");
 
         Set<ConstraintViolation<CreateSocioResponseDTO>> violations = validator.validate(createSocioResponseDTO);
 
@@ -102,11 +84,7 @@ public class CreateSocioResponseDTOTest {
 
     @Test
     public void when_setEmailEmpty_then_validationsIsNotEmpty(){
-        CreateSocioResponseDTO createSocioResponseDTO = CreateSocioResponseDTO.builder()
-                .name("gabriel")
-                .lastName("moura")
-                .email("")
-                .build();
+        createSocioResponseDTO.setEmail("");
 
         Set<ConstraintViolation<CreateSocioResponseDTO>> violations = validator.validate(createSocioResponseDTO);
 

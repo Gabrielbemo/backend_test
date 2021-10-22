@@ -5,6 +5,8 @@ import com.socios.clube.esportes.repositories.SocioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class SocioService {
 
@@ -30,6 +32,14 @@ public class SocioService {
         socioBeforeUpdate.setPhone(socio.getPhone());
 
         socioRepository.save(socioBeforeUpdate);
+    }
+
+    public Socio getById(Long id){
+        return socioRepository.getById(id);
+    }
+
+    public List<Socio> list(){
+        return socioRepository.findAll();
     }
 
     public void deleteById(final Long id){

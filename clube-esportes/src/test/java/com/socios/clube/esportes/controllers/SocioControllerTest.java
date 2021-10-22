@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.socios.clube.esportes.controllers.dtos.in.CreateSocioRequestDTO;
 import com.socios.clube.esportes.controllers.dtos.out.CreateSocioResponseDTO;
+import com.socios.clube.esportes.controllers.dtos.out.ListSocioResponseDTO;
 import com.socios.clube.esportes.controllers.dtos.out.SocioErrorDTO;
 import com.socios.clube.esportes.models.Socio;
 import com.socios.clube.esportes.models.enums.SocioErrorsCode;
@@ -24,9 +25,14 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -45,6 +51,7 @@ public class SocioControllerTest {
     private SocioService socioService;
 
     CreateSocioRequestDTO createSocioRequestDTO;
+    ListSocioResponseDTO listSocioResponseDTO;
 
     @BeforeEach
     public void setup(){
@@ -63,6 +70,12 @@ public class SocioControllerTest {
                 .email("gabriel123@gmail.com")
                 .phone("(00)0000-0000")
                 .address("Brazil America do Sul")
+                .build();
+
+        listSocioResponseDTO = ListSocioResponseDTO.builder()
+                .name("gabriel")
+                .lastName("moura")
+                .email("gabriel123@gmail.com")
                 .build();
     }
 
@@ -512,5 +525,53 @@ public class SocioControllerTest {
 
         Assertions.assertEquals(socioErrorDTO.getError(), SocioErrorsCode.SOCIO_EMPTY_RESULT_DATA_ACCESS);
         Assertions.assertEquals(socioErrorDTO.getCode(), HttpStatus.NOT_FOUND.value());
+    }
+
+    @Test
+    public void when_getByIdWithSuccess_expect_statusOk() throws Exception {
+        Socio socio = Socio.builder()
+                .name("gabriel")
+                .lastName("moura")
+                .email("as")
+                .build();
+
+        when(socioService.getById(1L)).thenReturn(socio);
+
+        mockMvc.perform(get("/socios/1"))
+                .andExpect(status().isOk())
+                .andReturn();
+    }
+
+    @Test
+    public void when_listWithSuccess_expect_statusOk() throws Exception {
+        List<Socio> socios = new ArrayList<Socio>();
+
+        Socio socio1 = Socio.builder()
+                .name("gabriel")
+                .lastName("moura")
+                .email("gabriel123@gmail.com")
+                .build();
+
+        Socio socio2 = Socio.builder()
+                .name("gabriel2")
+                .lastName("moura2")
+                .email("gabriel1234@gmail.com")
+                .build();
+
+        socios.add(socio1);
+        socios.add(socio2);
+
+        when(socioService.list()).thenReturn(socios);
+
+        MvcResult result = mockMvc.perform(get("/socios/"))
+                .andExpect(jsonPath("$[0].name", equalTo("gabriel")))
+                .andExpect(jsonPath("$[0].lastName", equalTo("moura")))
+                .andExpect(jsonPath("$[0].email", equalTo("gabriel123@gmail.com")))
+                .andExpect(jsonPath("$[1].name", equalTo("gabriel2")))
+                .andExpect(jsonPath("$[1].lastName", equalTo("moura2")))
+                .andExpect(jsonPath("$[1].email", equalTo("gabriel1234@gmail.com")))
+                .andExpect(jsonPath("$.length()", equalTo(2)))
+                .andExpect(status().isOk())
+                .andReturn();
     }
 }

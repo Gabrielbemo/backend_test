@@ -2,19 +2,20 @@ package com.socios.clube.esportes.services;
 
 import com.socios.clube.esportes.models.Socio;
 import com.socios.clube.esportes.repositories.SocioRepository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.dao.EmptyResultDataAccessException;
 
 import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.isA;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class SocioServiceTest {
@@ -42,16 +43,6 @@ public class SocioServiceTest {
 
     @Test
     public void when_createWithSuccess_then_doesNotReturnException() {
-        Socio socio = Socio.builder()
-                .id(1L)
-                .name("gabriel")
-                .lastName("moura")
-                .birthDate(LocalDateTime.now())
-                .email("gabriel123@gmail.com")
-                .phone("(12)123456-1234")
-                .address("Brazil America do Sul")
-                .build();
-
         when(socioRepository.save(socio)).thenReturn(null);
         when(socioRepository.getById(socio.getId())).thenReturn(socio);
 
@@ -361,4 +352,27 @@ public class SocioServiceTest {
         verify(socioRepository).save(isA(Socio.class));
     }
 
+    @Test
+    public void when_deleteWithSuccess_then_doesNotReturnException() {
+        doNothing().when(socioRepository).deleteById(socio.getId());
+
+        assertDoesNotThrow(() -> {
+            socioService.deleteById(socio.getId());
+        });
+
+        verify(socioRepository).deleteById(socio.getId());
+    }
+
+    @Test
+    public void when_deleteWithId0_then_returnException() {
+        doThrow(new EmptyResultDataAccessException(String.format("No class com.socios.clube.esportes.models.Socio entity with id %s exists!", 0), 1))
+                .when(socioRepository)
+                .deleteById(0L);
+
+        assertThrows(EmptyResultDataAccessException.class, () -> {
+            socioService.deleteById(0L);
+        });
+
+        verify(socioRepository).deleteById(0L);
+    }
 }

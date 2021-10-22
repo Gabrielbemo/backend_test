@@ -40,4 +40,12 @@ public class SocioController {
                 .noContent()
                 .build();
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity delete(@PathVariable final Long id){
+        socioService.deleteById(id);
+        return ResponseEntity
+                .noContent()
+                .build();
+    }
 }

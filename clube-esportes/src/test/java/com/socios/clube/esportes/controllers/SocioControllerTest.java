@@ -14,6 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -23,6 +24,7 @@ import java.time.LocalDateTime;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -346,5 +348,28 @@ public class SocioControllerTest {
                         .content(objectMapper.writeValueAsString(createSocioRequestDTO)))
                 .andExpect(status().isBadRequest())
                 .andReturn();
+    }
+
+    @Test
+    public void when_deleteWithSuccess_expect_statusNoContent() throws Exception {
+        doNothing().when(socioService).deleteById(1L);
+
+        mockMvc.perform(delete("/socios/1"))
+                .andExpect(status().isNoContent())
+                .andReturn();
+    }
+
+    @Test
+    public void when_deleteWithId0_expect_throwException() throws Exception {
+        doThrow(new EmptyResultDataAccessException(String.format("No class com.socios.clube.esportes.models.Socio entity with id %s exists!", 0), 1))
+                .when(socioService)
+                .deleteById(0L);
+
+        Assertions.assertThrows(Exception.class, () -> {
+            mockMvc.perform(delete("/socios/0"))
+                    .andExpect(status().isBadRequest())
+                    .andReturn();
+        });
+
     }
 }

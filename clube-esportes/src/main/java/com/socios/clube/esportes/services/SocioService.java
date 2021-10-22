@@ -31,4 +31,8 @@ public class SocioService {
 
         socioRepository.save(socioBeforeUpdate);
     }
+
+    public void deleteById(final Long id){
+        socioRepository.deleteById(id);
+    }
 }

@@ -4,7 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.socios.clube.esportes.controllers.dtos.in.CreateSocioRequestDTO;
 import com.socios.clube.esportes.controllers.dtos.out.CreateSocioResponseDTO;
+import com.socios.clube.esportes.controllers.dtos.out.SocioErrorDTO;
 import com.socios.clube.esportes.models.Socio;
+import com.socios.clube.esportes.models.enums.SocioErrorsCode;
 import com.socios.clube.esportes.services.SocioService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -24,7 +27,6 @@ import java.time.LocalDateTime;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -48,6 +50,7 @@ public class SocioControllerTest {
     public void setup(){
         mockMvc = MockMvcBuilders
                 .standaloneSetup(socioController)
+                .setControllerAdvice(new ExceptionHandle())
                 .build();
 
         objectMapper = new ObjectMapper()
@@ -87,67 +90,102 @@ public class SocioControllerTest {
     public void when_createWithEmptyName_expect_statusBadRequest() throws Exception {
         createSocioRequestDTO.setName("");
 
-        mockMvc.perform(post("/socios/")
+        MvcResult result = mockMvc.perform(post("/socios/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createSocioRequestDTO)))
                 .andExpect(status().isBadRequest())
                 .andReturn();
 
+        SocioErrorDTO socioErrorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), SocioErrorDTO.class);
+
+        Assertions.assertEquals(socioErrorDTO.getError(), SocioErrorsCode.SOCIO_ERROR_INVALID_ARGUMENTS);
+        Assertions.assertEquals(socioErrorDTO.getErrorFieldDTO().size(), 1);
+        Assertions.assertEquals(socioErrorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
     }
 
     @Test
     public void when_createWithEmptyLastName_expect_statusBadRequest() throws Exception {
         createSocioRequestDTO.setLastName("");
 
-        mockMvc.perform(post("/socios/")
+        MvcResult result = mockMvc.perform(post("/socios/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createSocioRequestDTO)))
                 .andExpect(status().isBadRequest())
                 .andReturn();
+
+        SocioErrorDTO socioErrorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), SocioErrorDTO.class);
+
+        Assertions.assertEquals(socioErrorDTO.getError(), SocioErrorsCode.SOCIO_ERROR_INVALID_ARGUMENTS);
+        Assertions.assertEquals(socioErrorDTO.getErrorFieldDTO().size(), 1);
+        Assertions.assertEquals(socioErrorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
     }
 
     @Test
     public void when_createWithEmptyEmail_expect_statusBadRequest() throws Exception {
         createSocioRequestDTO.setEmail("");
 
-        mockMvc.perform(post("/socios/")
+        MvcResult result = mockMvc.perform(post("/socios/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createSocioRequestDTO)))
                 .andExpect(status().isBadRequest())
                 .andReturn();
+
+        SocioErrorDTO socioErrorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), SocioErrorDTO.class);
+
+        Assertions.assertEquals(socioErrorDTO.getError(), SocioErrorsCode.SOCIO_ERROR_INVALID_ARGUMENTS);
+        Assertions.assertEquals(socioErrorDTO.getErrorFieldDTO().size(), 1);
+        Assertions.assertEquals(socioErrorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
     }
 
     @Test
     public void when_createWithEmptyPhone_expect_statusBadRequest() throws Exception {
         createSocioRequestDTO.setPhone("");
 
-        mockMvc.perform(post("/socios/")
+        MvcResult result = mockMvc.perform(post("/socios/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createSocioRequestDTO)))
                 .andExpect(status().isBadRequest())
                 .andReturn();
+
+        SocioErrorDTO socioErrorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), SocioErrorDTO.class);
+
+        Assertions.assertEquals(socioErrorDTO.getError(), SocioErrorsCode.SOCIO_ERROR_INVALID_ARGUMENTS);
+        Assertions.assertEquals(socioErrorDTO.getErrorFieldDTO().size(), 2);
+        Assertions.assertEquals(socioErrorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
     }
 
     @Test
     public void when_createWithEmptyAddress_expect_statusBadRequest() throws Exception {
         createSocioRequestDTO.setAddress("");
 
-        mockMvc.perform(post("/socios/")
+        MvcResult result = mockMvc.perform(post("/socios/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createSocioRequestDTO)))
                 .andExpect(status().isBadRequest())
                 .andReturn();
+
+        SocioErrorDTO socioErrorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), SocioErrorDTO.class);
+
+        Assertions.assertEquals(socioErrorDTO.getError(), SocioErrorsCode.SOCIO_ERROR_INVALID_ARGUMENTS);
+        Assertions.assertEquals(socioErrorDTO.getErrorFieldDTO().size(), 1);
+        Assertions.assertEquals(socioErrorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
     }
 
     @Test
     public void when_createWithNullName_expect_statusBadRequest() throws Exception {
         createSocioRequestDTO.setName(null);
 
-        mockMvc.perform(post("/socios/")
+        MvcResult result = mockMvc.perform(post("/socios/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createSocioRequestDTO)))
                 .andExpect(status().isBadRequest())
                 .andReturn();
+
+        SocioErrorDTO socioErrorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), SocioErrorDTO.class);
+
+        Assertions.assertEquals(socioErrorDTO.getError(), SocioErrorsCode.SOCIO_ERROR_INVALID_ARGUMENTS);
+        Assertions.assertEquals(socioErrorDTO.getErrorFieldDTO().size(), 2);
+        Assertions.assertEquals(socioErrorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
 
     }
 
@@ -155,55 +193,85 @@ public class SocioControllerTest {
     public void when_createWithNullLastName_expect_statusBadRequest() throws Exception {
         createSocioRequestDTO.setLastName(null);
 
-        mockMvc.perform(post("/socios/")
+        MvcResult result = mockMvc.perform(post("/socios/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createSocioRequestDTO)))
                 .andExpect(status().isBadRequest())
                 .andReturn();
+
+        SocioErrorDTO socioErrorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), SocioErrorDTO.class);
+
+        Assertions.assertEquals(socioErrorDTO.getError(), SocioErrorsCode.SOCIO_ERROR_INVALID_ARGUMENTS);
+        Assertions.assertEquals(socioErrorDTO.getErrorFieldDTO().size(), 2);
+        Assertions.assertEquals(socioErrorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
     }
 
     @Test
     public void when_createWithNullBirthDate_expect_statusBadRequest() throws Exception {
         createSocioRequestDTO.setBirthDate(null);
 
-        mockMvc.perform(post("/socios/")
+        MvcResult result = mockMvc.perform(post("/socios/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createSocioRequestDTO)))
                 .andExpect(status().isBadRequest())
                 .andReturn();
+
+        SocioErrorDTO socioErrorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), SocioErrorDTO.class);
+
+        Assertions.assertEquals(socioErrorDTO.getError(), SocioErrorsCode.SOCIO_ERROR_INVALID_ARGUMENTS);
+        Assertions.assertEquals(socioErrorDTO.getErrorFieldDTO().size(), 1);
+        Assertions.assertEquals(socioErrorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
     }
 
     @Test
     public void when_createWithNullEmail_expect_statusBadRequest() throws Exception {
         createSocioRequestDTO.setEmail(null);
 
-        mockMvc.perform(post("/socios/")
+        MvcResult result = mockMvc.perform(post("/socios/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createSocioRequestDTO)))
                 .andExpect(status().isBadRequest())
                 .andReturn();
+
+        SocioErrorDTO socioErrorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), SocioErrorDTO.class);
+
+        Assertions.assertEquals(socioErrorDTO.getError(), SocioErrorsCode.SOCIO_ERROR_INVALID_ARGUMENTS);
+        Assertions.assertEquals(socioErrorDTO.getErrorFieldDTO().size(), 2);
+        Assertions.assertEquals(socioErrorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
     }
 
     @Test
     public void when_createWithNullPhone_expect_statusBadRequest() throws Exception {
         createSocioRequestDTO.setPhone(null);
 
-        mockMvc.perform(post("/socios/")
+        MvcResult result = mockMvc.perform(post("/socios/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createSocioRequestDTO)))
                 .andExpect(status().isBadRequest())
                 .andReturn();
+
+        SocioErrorDTO socioErrorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), SocioErrorDTO.class);
+
+        Assertions.assertEquals(socioErrorDTO.getError(), SocioErrorsCode.SOCIO_ERROR_INVALID_ARGUMENTS);
+        Assertions.assertEquals(socioErrorDTO.getErrorFieldDTO().size(), 2);
+        Assertions.assertEquals(socioErrorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
     }
 
     @Test
     public void when_createWithNullAddress_expect_statusBadRequest() throws Exception {
         createSocioRequestDTO.setAddress(null);
 
-        mockMvc.perform(post("/socios/")
+        MvcResult result = mockMvc.perform(post("/socios/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createSocioRequestDTO)))
                 .andExpect(status().isBadRequest())
                 .andReturn();
+
+        SocioErrorDTO socioErrorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), SocioErrorDTO.class);
+
+        Assertions.assertEquals(socioErrorDTO.getError(), SocioErrorsCode.SOCIO_ERROR_INVALID_ARGUMENTS);
+        Assertions.assertEquals(socioErrorDTO.getErrorFieldDTO().size(), 2);
+        Assertions.assertEquals(socioErrorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
     }
 
     @Test
@@ -221,133 +289,204 @@ public class SocioControllerTest {
     public void when_updateWithEmptyName_expect_statusBadRequest() throws Exception {
         createSocioRequestDTO.setName("");
 
-        mockMvc.perform(put("/socios/1")
+        MvcResult result = mockMvc.perform(put("/socios/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createSocioRequestDTO)))
                 .andExpect(status().isBadRequest())
                 .andReturn();
+
+        SocioErrorDTO socioErrorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), SocioErrorDTO.class);
+
+        Assertions.assertEquals(socioErrorDTO.getError(), SocioErrorsCode.SOCIO_ERROR_INVALID_ARGUMENTS);
+        Assertions.assertEquals(socioErrorDTO.getErrorFieldDTO().size(), 1);
+        Assertions.assertEquals(socioErrorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
     }
 
     @Test
     public void when_updateWithEmptyLastName_expect_statusBadRequest() throws Exception {
         createSocioRequestDTO.setLastName("");
 
-        mockMvc.perform(put("/socios/1")
+        MvcResult result = mockMvc.perform(put("/socios/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createSocioRequestDTO)))
                 .andExpect(status().isBadRequest())
                 .andReturn();
+
+        SocioErrorDTO socioErrorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), SocioErrorDTO.class);
+
+        Assertions.assertEquals(socioErrorDTO.getError(), SocioErrorsCode.SOCIO_ERROR_INVALID_ARGUMENTS);
+        Assertions.assertEquals(socioErrorDTO.getErrorFieldDTO().size(), 1);
+        Assertions.assertEquals(socioErrorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
     }
 
     @Test
     public void when_updateWithEmptyEmail_expect_statusBadRequest() throws Exception {
         createSocioRequestDTO.setEmail("");
 
-        mockMvc.perform(put("/socios/1")
+        MvcResult result = mockMvc.perform(put("/socios/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createSocioRequestDTO)))
                 .andExpect(status().isBadRequest())
                 .andReturn();
+
+        SocioErrorDTO socioErrorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), SocioErrorDTO.class);
+
+        Assertions.assertEquals(socioErrorDTO.getError(), SocioErrorsCode.SOCIO_ERROR_INVALID_ARGUMENTS);
+        Assertions.assertEquals(socioErrorDTO.getErrorFieldDTO().size(), 1);
+        Assertions.assertEquals(socioErrorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
     }
 
     @Test
     public void when_updateWithEmptyPhone_expect_statusBadRequest() throws Exception {
         createSocioRequestDTO.setPhone("");
 
-        mockMvc.perform(put("/socios/1")
+        MvcResult result = mockMvc.perform(put("/socios/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createSocioRequestDTO)))
                 .andExpect(status().isBadRequest())
                 .andReturn();
+
+        SocioErrorDTO socioErrorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), SocioErrorDTO.class);
+
+        Assertions.assertEquals(socioErrorDTO.getError(), SocioErrorsCode.SOCIO_ERROR_INVALID_ARGUMENTS);
+        Assertions.assertEquals(socioErrorDTO.getErrorFieldDTO().size(), 2);
+        Assertions.assertEquals(socioErrorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
     }
 
     @Test
     public void when_updateWithEmptyAddress_expect_statusBadRequest() throws Exception {
         createSocioRequestDTO.setPhone("");
 
-        mockMvc.perform(put("/socios/1")
+        MvcResult result = mockMvc.perform(put("/socios/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createSocioRequestDTO)))
                 .andExpect(status().isBadRequest())
                 .andReturn();
+
+        SocioErrorDTO socioErrorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), SocioErrorDTO.class);
+
+        Assertions.assertEquals(socioErrorDTO.getError(), SocioErrorsCode.SOCIO_ERROR_INVALID_ARGUMENTS);
+        Assertions.assertEquals(socioErrorDTO.getErrorFieldDTO().size(), 2);
+        Assertions.assertEquals(socioErrorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
     }
 
     @Test
     public void when_updateWithNullName_expect_statusBadRequest() throws Exception {
         createSocioRequestDTO.setName(null);
 
-        mockMvc.perform(put("/socios/1")
+        MvcResult result = mockMvc.perform(put("/socios/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createSocioRequestDTO)))
                 .andExpect(status().isBadRequest())
                 .andReturn();
 
+        SocioErrorDTO socioErrorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), SocioErrorDTO.class);
+
+        Assertions.assertEquals(socioErrorDTO.getError(), SocioErrorsCode.SOCIO_ERROR_INVALID_ARGUMENTS);
+        Assertions.assertEquals(socioErrorDTO.getErrorFieldDTO().size(), 2);
+        Assertions.assertEquals(socioErrorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
     }
 
     @Test
     public void when_updateWithNullLastName_expect_statusBadRequest() throws Exception {
         createSocioRequestDTO.setLastName(null);
 
-        mockMvc.perform(put("/socios/1")
+        MvcResult result = mockMvc.perform(put("/socios/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createSocioRequestDTO)))
                 .andExpect(status().isBadRequest())
                 .andReturn();
+
+        SocioErrorDTO socioErrorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), SocioErrorDTO.class);
+
+        Assertions.assertEquals(socioErrorDTO.getError(), SocioErrorsCode.SOCIO_ERROR_INVALID_ARGUMENTS);
+        Assertions.assertEquals(socioErrorDTO.getErrorFieldDTO().size(), 2);
+        Assertions.assertEquals(socioErrorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
     }
 
     @Test
     public void when_updateWithNullBirthDate_expect_statusBadRequest() throws Exception {
         createSocioRequestDTO.setBirthDate(null);
 
-        mockMvc.perform(put("/socios/1")
+        MvcResult result = mockMvc.perform(put("/socios/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createSocioRequestDTO)))
                 .andExpect(status().isBadRequest())
                 .andReturn();
+
+        SocioErrorDTO socioErrorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), SocioErrorDTO.class);
+
+        Assertions.assertEquals(socioErrorDTO.getError(), SocioErrorsCode.SOCIO_ERROR_INVALID_ARGUMENTS);
+        Assertions.assertEquals(socioErrorDTO.getErrorFieldDTO().size(), 1);
+        Assertions.assertEquals(socioErrorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
     }
 
     @Test
     public void when_updateWithNullEmail_expect_statusBadRequest() throws Exception {
         createSocioRequestDTO.setEmail(null);
 
-        mockMvc.perform(put("/socios/1")
+        MvcResult result = mockMvc.perform(put("/socios/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createSocioRequestDTO)))
                 .andExpect(status().isBadRequest())
                 .andReturn();
+
+        SocioErrorDTO socioErrorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), SocioErrorDTO.class);
+
+        Assertions.assertEquals(socioErrorDTO.getError(), SocioErrorsCode.SOCIO_ERROR_INVALID_ARGUMENTS);
+        Assertions.assertEquals(socioErrorDTO.getErrorFieldDTO().size(), 2);
+        Assertions.assertEquals(socioErrorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
     }
 
     @Test
     public void when_updateWithNullPhone_expect_statusBadRequest() throws Exception {
         createSocioRequestDTO.setPhone(null);
 
-        mockMvc.perform(put("/socios/1")
+        MvcResult result = mockMvc.perform(put("/socios/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createSocioRequestDTO)))
                 .andExpect(status().isBadRequest())
                 .andReturn();
+
+        SocioErrorDTO socioErrorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), SocioErrorDTO.class);
+
+        Assertions.assertEquals(socioErrorDTO.getError(), SocioErrorsCode.SOCIO_ERROR_INVALID_ARGUMENTS);
+        Assertions.assertEquals(socioErrorDTO.getErrorFieldDTO().size(), 2);
+        Assertions.assertEquals(socioErrorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
     }
 
     @Test
     public void when_updateWithNullAddress_expect_statusBadRequest() throws Exception {
         createSocioRequestDTO.setAddress(null);
 
-        mockMvc.perform(put("/socios/1")
+        MvcResult result = mockMvc.perform(put("/socios/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createSocioRequestDTO)))
                 .andExpect(status().isBadRequest())
                 .andReturn();
+
+        SocioErrorDTO socioErrorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), SocioErrorDTO.class);
+
+        Assertions.assertEquals(socioErrorDTO.getError(), SocioErrorsCode.SOCIO_ERROR_INVALID_ARGUMENTS);
+        Assertions.assertEquals(socioErrorDTO.getErrorFieldDTO().size(), 2);
+        Assertions.assertEquals(socioErrorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
     }
 
     @Test
     public void when_updateWithIncorrectPhone_expect_statusBadRequest() throws Exception {
         createSocioRequestDTO.setPhone("(00)123456-1234");
 
-        mockMvc.perform(put("/socios/1")
+        MvcResult result = mockMvc.perform(put("/socios/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createSocioRequestDTO)))
                 .andExpect(status().isBadRequest())
                 .andReturn();
+
+        SocioErrorDTO socioErrorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), SocioErrorDTO.class);
+
+        Assertions.assertEquals(socioErrorDTO.getError(), SocioErrorsCode.SOCIO_ERROR_INVALID_ARGUMENTS);
+        Assertions.assertEquals(socioErrorDTO.getErrorFieldDTO().size(), 1);
+        Assertions.assertEquals(socioErrorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
     }
 
     @Test
@@ -365,11 +504,13 @@ public class SocioControllerTest {
                 .when(socioService)
                 .deleteById(0L);
 
-        Assertions.assertThrows(Exception.class, () -> {
-            mockMvc.perform(delete("/socios/0"))
-                    .andExpect(status().isBadRequest())
-                    .andReturn();
-        });
+        MvcResult result = mockMvc.perform(delete("/socios/0"))
+                .andExpect(status().isNotFound())
+                .andReturn();
 
+        SocioErrorDTO socioErrorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), SocioErrorDTO.class);
+
+        Assertions.assertEquals(socioErrorDTO.getError(), SocioErrorsCode.SOCIO_EMPTY_RESULT_DATA_ACCESS);
+        Assertions.assertEquals(socioErrorDTO.getCode(), HttpStatus.NOT_FOUND.value());
     }
 }

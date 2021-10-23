@@ -5,9 +5,9 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.socios.clube.esportes.controllers.dtos.in.CreateSocioRequestDTO;
 import com.socios.clube.esportes.controllers.dtos.out.CreateSocioResponseDTO;
 import com.socios.clube.esportes.controllers.dtos.out.ListSocioResponseDTO;
-import com.socios.clube.esportes.controllers.dtos.out.SocioErrorDTO;
+import com.socios.clube.esportes.controllers.dtos.out.ErrorDTO;
 import com.socios.clube.esportes.models.Socio;
-import com.socios.clube.esportes.models.enums.SocioErrorsCode;
+import com.socios.clube.esportes.models.enums.ErrorsCode;
 import com.socios.clube.esportes.services.SocioService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,7 +31,6 @@ import java.util.List;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -109,11 +108,11 @@ public class SocioControllerTest {
                 .andExpect(status().isBadRequest())
                 .andReturn();
 
-        SocioErrorDTO socioErrorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), SocioErrorDTO.class);
+        ErrorDTO errorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), ErrorDTO.class);
 
-        Assertions.assertEquals(socioErrorDTO.getError(), SocioErrorsCode.SOCIO_ERROR_INVALID_ARGUMENTS);
-        Assertions.assertEquals(socioErrorDTO.getErrorFieldDTO().size(), 1);
-        Assertions.assertEquals(socioErrorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
+        Assertions.assertEquals(errorDTO.getError(), ErrorsCode.ERROR_INVALID_ARGUMENTS);
+        Assertions.assertEquals(errorDTO.getErrorFieldDTO().size(), 1);
+        Assertions.assertEquals(errorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
     }
 
     @Test
@@ -126,11 +125,11 @@ public class SocioControllerTest {
                 .andExpect(status().isBadRequest())
                 .andReturn();
 
-        SocioErrorDTO socioErrorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), SocioErrorDTO.class);
+        ErrorDTO errorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), ErrorDTO.class);
 
-        Assertions.assertEquals(socioErrorDTO.getError(), SocioErrorsCode.SOCIO_ERROR_INVALID_ARGUMENTS);
-        Assertions.assertEquals(socioErrorDTO.getErrorFieldDTO().size(), 1);
-        Assertions.assertEquals(socioErrorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
+        Assertions.assertEquals(errorDTO.getError(), ErrorsCode.ERROR_INVALID_ARGUMENTS);
+        Assertions.assertEquals(errorDTO.getErrorFieldDTO().size(), 1);
+        Assertions.assertEquals(errorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
     }
 
     @Test
@@ -143,11 +142,11 @@ public class SocioControllerTest {
                 .andExpect(status().isBadRequest())
                 .andReturn();
 
-        SocioErrorDTO socioErrorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), SocioErrorDTO.class);
+        ErrorDTO errorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), ErrorDTO.class);
 
-        Assertions.assertEquals(socioErrorDTO.getError(), SocioErrorsCode.SOCIO_ERROR_INVALID_ARGUMENTS);
-        Assertions.assertEquals(socioErrorDTO.getErrorFieldDTO().size(), 1);
-        Assertions.assertEquals(socioErrorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
+        Assertions.assertEquals(errorDTO.getError(), ErrorsCode.ERROR_INVALID_ARGUMENTS);
+        Assertions.assertEquals(errorDTO.getErrorFieldDTO().size(), 1);
+        Assertions.assertEquals(errorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
     }
 
     @Test
@@ -160,11 +159,11 @@ public class SocioControllerTest {
                 .andExpect(status().isBadRequest())
                 .andReturn();
 
-        SocioErrorDTO socioErrorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), SocioErrorDTO.class);
+        ErrorDTO errorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), ErrorDTO.class);
 
-        Assertions.assertEquals(socioErrorDTO.getError(), SocioErrorsCode.SOCIO_ERROR_INVALID_ARGUMENTS);
-        Assertions.assertEquals(socioErrorDTO.getErrorFieldDTO().size(), 2);
-        Assertions.assertEquals(socioErrorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
+        Assertions.assertEquals(errorDTO.getError(), ErrorsCode.ERROR_INVALID_ARGUMENTS);
+        Assertions.assertEquals(errorDTO.getErrorFieldDTO().size(), 2);
+        Assertions.assertEquals(errorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
     }
 
     @Test
@@ -177,11 +176,11 @@ public class SocioControllerTest {
                 .andExpect(status().isBadRequest())
                 .andReturn();
 
-        SocioErrorDTO socioErrorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), SocioErrorDTO.class);
+        ErrorDTO errorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), ErrorDTO.class);
 
-        Assertions.assertEquals(socioErrorDTO.getError(), SocioErrorsCode.SOCIO_ERROR_INVALID_ARGUMENTS);
-        Assertions.assertEquals(socioErrorDTO.getErrorFieldDTO().size(), 1);
-        Assertions.assertEquals(socioErrorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
+        Assertions.assertEquals(errorDTO.getError(), ErrorsCode.ERROR_INVALID_ARGUMENTS);
+        Assertions.assertEquals(errorDTO.getErrorFieldDTO().size(), 1);
+        Assertions.assertEquals(errorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
     }
 
     @Test
@@ -194,11 +193,11 @@ public class SocioControllerTest {
                 .andExpect(status().isBadRequest())
                 .andReturn();
 
-        SocioErrorDTO socioErrorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), SocioErrorDTO.class);
+        ErrorDTO errorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), ErrorDTO.class);
 
-        Assertions.assertEquals(socioErrorDTO.getError(), SocioErrorsCode.SOCIO_ERROR_INVALID_ARGUMENTS);
-        Assertions.assertEquals(socioErrorDTO.getErrorFieldDTO().size(), 2);
-        Assertions.assertEquals(socioErrorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
+        Assertions.assertEquals(errorDTO.getError(), ErrorsCode.ERROR_INVALID_ARGUMENTS);
+        Assertions.assertEquals(errorDTO.getErrorFieldDTO().size(), 2);
+        Assertions.assertEquals(errorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
 
     }
 
@@ -212,11 +211,11 @@ public class SocioControllerTest {
                 .andExpect(status().isBadRequest())
                 .andReturn();
 
-        SocioErrorDTO socioErrorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), SocioErrorDTO.class);
+        ErrorDTO errorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), ErrorDTO.class);
 
-        Assertions.assertEquals(socioErrorDTO.getError(), SocioErrorsCode.SOCIO_ERROR_INVALID_ARGUMENTS);
-        Assertions.assertEquals(socioErrorDTO.getErrorFieldDTO().size(), 2);
-        Assertions.assertEquals(socioErrorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
+        Assertions.assertEquals(errorDTO.getError(), ErrorsCode.ERROR_INVALID_ARGUMENTS);
+        Assertions.assertEquals(errorDTO.getErrorFieldDTO().size(), 2);
+        Assertions.assertEquals(errorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
     }
 
     @Test
@@ -229,11 +228,11 @@ public class SocioControllerTest {
                 .andExpect(status().isBadRequest())
                 .andReturn();
 
-        SocioErrorDTO socioErrorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), SocioErrorDTO.class);
+        ErrorDTO errorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), ErrorDTO.class);
 
-        Assertions.assertEquals(socioErrorDTO.getError(), SocioErrorsCode.SOCIO_ERROR_INVALID_ARGUMENTS);
-        Assertions.assertEquals(socioErrorDTO.getErrorFieldDTO().size(), 1);
-        Assertions.assertEquals(socioErrorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
+        Assertions.assertEquals(errorDTO.getError(), ErrorsCode.ERROR_INVALID_ARGUMENTS);
+        Assertions.assertEquals(errorDTO.getErrorFieldDTO().size(), 1);
+        Assertions.assertEquals(errorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
     }
 
     @Test
@@ -246,11 +245,11 @@ public class SocioControllerTest {
                 .andExpect(status().isBadRequest())
                 .andReturn();
 
-        SocioErrorDTO socioErrorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), SocioErrorDTO.class);
+        ErrorDTO errorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), ErrorDTO.class);
 
-        Assertions.assertEquals(socioErrorDTO.getError(), SocioErrorsCode.SOCIO_ERROR_INVALID_ARGUMENTS);
-        Assertions.assertEquals(socioErrorDTO.getErrorFieldDTO().size(), 2);
-        Assertions.assertEquals(socioErrorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
+        Assertions.assertEquals(errorDTO.getError(), ErrorsCode.ERROR_INVALID_ARGUMENTS);
+        Assertions.assertEquals(errorDTO.getErrorFieldDTO().size(), 2);
+        Assertions.assertEquals(errorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
     }
 
     @Test
@@ -263,11 +262,11 @@ public class SocioControllerTest {
                 .andExpect(status().isBadRequest())
                 .andReturn();
 
-        SocioErrorDTO socioErrorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), SocioErrorDTO.class);
+        ErrorDTO errorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), ErrorDTO.class);
 
-        Assertions.assertEquals(socioErrorDTO.getError(), SocioErrorsCode.SOCIO_ERROR_INVALID_ARGUMENTS);
-        Assertions.assertEquals(socioErrorDTO.getErrorFieldDTO().size(), 2);
-        Assertions.assertEquals(socioErrorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
+        Assertions.assertEquals(errorDTO.getError(), ErrorsCode.ERROR_INVALID_ARGUMENTS);
+        Assertions.assertEquals(errorDTO.getErrorFieldDTO().size(), 2);
+        Assertions.assertEquals(errorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
     }
 
     @Test
@@ -280,11 +279,11 @@ public class SocioControllerTest {
                 .andExpect(status().isBadRequest())
                 .andReturn();
 
-        SocioErrorDTO socioErrorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), SocioErrorDTO.class);
+        ErrorDTO errorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), ErrorDTO.class);
 
-        Assertions.assertEquals(socioErrorDTO.getError(), SocioErrorsCode.SOCIO_ERROR_INVALID_ARGUMENTS);
-        Assertions.assertEquals(socioErrorDTO.getErrorFieldDTO().size(), 2);
-        Assertions.assertEquals(socioErrorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
+        Assertions.assertEquals(errorDTO.getError(), ErrorsCode.ERROR_INVALID_ARGUMENTS);
+        Assertions.assertEquals(errorDTO.getErrorFieldDTO().size(), 2);
+        Assertions.assertEquals(errorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
     }
 
     @Test
@@ -308,11 +307,11 @@ public class SocioControllerTest {
                 .andExpect(status().isBadRequest())
                 .andReturn();
 
-        SocioErrorDTO socioErrorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), SocioErrorDTO.class);
+        ErrorDTO errorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), ErrorDTO.class);
 
-        Assertions.assertEquals(socioErrorDTO.getError(), SocioErrorsCode.SOCIO_ERROR_INVALID_ARGUMENTS);
-        Assertions.assertEquals(socioErrorDTO.getErrorFieldDTO().size(), 1);
-        Assertions.assertEquals(socioErrorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
+        Assertions.assertEquals(errorDTO.getError(), ErrorsCode.ERROR_INVALID_ARGUMENTS);
+        Assertions.assertEquals(errorDTO.getErrorFieldDTO().size(), 1);
+        Assertions.assertEquals(errorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
     }
 
     @Test
@@ -325,11 +324,11 @@ public class SocioControllerTest {
                 .andExpect(status().isBadRequest())
                 .andReturn();
 
-        SocioErrorDTO socioErrorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), SocioErrorDTO.class);
+        ErrorDTO errorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), ErrorDTO.class);
 
-        Assertions.assertEquals(socioErrorDTO.getError(), SocioErrorsCode.SOCIO_ERROR_INVALID_ARGUMENTS);
-        Assertions.assertEquals(socioErrorDTO.getErrorFieldDTO().size(), 1);
-        Assertions.assertEquals(socioErrorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
+        Assertions.assertEquals(errorDTO.getError(), ErrorsCode.ERROR_INVALID_ARGUMENTS);
+        Assertions.assertEquals(errorDTO.getErrorFieldDTO().size(), 1);
+        Assertions.assertEquals(errorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
     }
 
     @Test
@@ -342,11 +341,11 @@ public class SocioControllerTest {
                 .andExpect(status().isBadRequest())
                 .andReturn();
 
-        SocioErrorDTO socioErrorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), SocioErrorDTO.class);
+        ErrorDTO errorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), ErrorDTO.class);
 
-        Assertions.assertEquals(socioErrorDTO.getError(), SocioErrorsCode.SOCIO_ERROR_INVALID_ARGUMENTS);
-        Assertions.assertEquals(socioErrorDTO.getErrorFieldDTO().size(), 1);
-        Assertions.assertEquals(socioErrorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
+        Assertions.assertEquals(errorDTO.getError(), ErrorsCode.ERROR_INVALID_ARGUMENTS);
+        Assertions.assertEquals(errorDTO.getErrorFieldDTO().size(), 1);
+        Assertions.assertEquals(errorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
     }
 
     @Test
@@ -359,11 +358,11 @@ public class SocioControllerTest {
                 .andExpect(status().isBadRequest())
                 .andReturn();
 
-        SocioErrorDTO socioErrorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), SocioErrorDTO.class);
+        ErrorDTO errorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), ErrorDTO.class);
 
-        Assertions.assertEquals(socioErrorDTO.getError(), SocioErrorsCode.SOCIO_ERROR_INVALID_ARGUMENTS);
-        Assertions.assertEquals(socioErrorDTO.getErrorFieldDTO().size(), 2);
-        Assertions.assertEquals(socioErrorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
+        Assertions.assertEquals(errorDTO.getError(), ErrorsCode.ERROR_INVALID_ARGUMENTS);
+        Assertions.assertEquals(errorDTO.getErrorFieldDTO().size(), 2);
+        Assertions.assertEquals(errorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
     }
 
     @Test
@@ -376,11 +375,11 @@ public class SocioControllerTest {
                 .andExpect(status().isBadRequest())
                 .andReturn();
 
-        SocioErrorDTO socioErrorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), SocioErrorDTO.class);
+        ErrorDTO errorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), ErrorDTO.class);
 
-        Assertions.assertEquals(socioErrorDTO.getError(), SocioErrorsCode.SOCIO_ERROR_INVALID_ARGUMENTS);
-        Assertions.assertEquals(socioErrorDTO.getErrorFieldDTO().size(), 2);
-        Assertions.assertEquals(socioErrorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
+        Assertions.assertEquals(errorDTO.getError(), ErrorsCode.ERROR_INVALID_ARGUMENTS);
+        Assertions.assertEquals(errorDTO.getErrorFieldDTO().size(), 2);
+        Assertions.assertEquals(errorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
     }
 
     @Test
@@ -393,11 +392,11 @@ public class SocioControllerTest {
                 .andExpect(status().isBadRequest())
                 .andReturn();
 
-        SocioErrorDTO socioErrorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), SocioErrorDTO.class);
+        ErrorDTO errorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), ErrorDTO.class);
 
-        Assertions.assertEquals(socioErrorDTO.getError(), SocioErrorsCode.SOCIO_ERROR_INVALID_ARGUMENTS);
-        Assertions.assertEquals(socioErrorDTO.getErrorFieldDTO().size(), 2);
-        Assertions.assertEquals(socioErrorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
+        Assertions.assertEquals(errorDTO.getError(), ErrorsCode.ERROR_INVALID_ARGUMENTS);
+        Assertions.assertEquals(errorDTO.getErrorFieldDTO().size(), 2);
+        Assertions.assertEquals(errorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
     }
 
     @Test
@@ -410,11 +409,11 @@ public class SocioControllerTest {
                 .andExpect(status().isBadRequest())
                 .andReturn();
 
-        SocioErrorDTO socioErrorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), SocioErrorDTO.class);
+        ErrorDTO errorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), ErrorDTO.class);
 
-        Assertions.assertEquals(socioErrorDTO.getError(), SocioErrorsCode.SOCIO_ERROR_INVALID_ARGUMENTS);
-        Assertions.assertEquals(socioErrorDTO.getErrorFieldDTO().size(), 2);
-        Assertions.assertEquals(socioErrorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
+        Assertions.assertEquals(errorDTO.getError(), ErrorsCode.ERROR_INVALID_ARGUMENTS);
+        Assertions.assertEquals(errorDTO.getErrorFieldDTO().size(), 2);
+        Assertions.assertEquals(errorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
     }
 
     @Test
@@ -427,11 +426,11 @@ public class SocioControllerTest {
                 .andExpect(status().isBadRequest())
                 .andReturn();
 
-        SocioErrorDTO socioErrorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), SocioErrorDTO.class);
+        ErrorDTO errorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), ErrorDTO.class);
 
-        Assertions.assertEquals(socioErrorDTO.getError(), SocioErrorsCode.SOCIO_ERROR_INVALID_ARGUMENTS);
-        Assertions.assertEquals(socioErrorDTO.getErrorFieldDTO().size(), 1);
-        Assertions.assertEquals(socioErrorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
+        Assertions.assertEquals(errorDTO.getError(), ErrorsCode.ERROR_INVALID_ARGUMENTS);
+        Assertions.assertEquals(errorDTO.getErrorFieldDTO().size(), 1);
+        Assertions.assertEquals(errorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
     }
 
     @Test
@@ -444,11 +443,11 @@ public class SocioControllerTest {
                 .andExpect(status().isBadRequest())
                 .andReturn();
 
-        SocioErrorDTO socioErrorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), SocioErrorDTO.class);
+        ErrorDTO errorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), ErrorDTO.class);
 
-        Assertions.assertEquals(socioErrorDTO.getError(), SocioErrorsCode.SOCIO_ERROR_INVALID_ARGUMENTS);
-        Assertions.assertEquals(socioErrorDTO.getErrorFieldDTO().size(), 2);
-        Assertions.assertEquals(socioErrorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
+        Assertions.assertEquals(errorDTO.getError(), ErrorsCode.ERROR_INVALID_ARGUMENTS);
+        Assertions.assertEquals(errorDTO.getErrorFieldDTO().size(), 2);
+        Assertions.assertEquals(errorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
     }
 
     @Test
@@ -461,11 +460,11 @@ public class SocioControllerTest {
                 .andExpect(status().isBadRequest())
                 .andReturn();
 
-        SocioErrorDTO socioErrorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), SocioErrorDTO.class);
+        ErrorDTO errorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), ErrorDTO.class);
 
-        Assertions.assertEquals(socioErrorDTO.getError(), SocioErrorsCode.SOCIO_ERROR_INVALID_ARGUMENTS);
-        Assertions.assertEquals(socioErrorDTO.getErrorFieldDTO().size(), 2);
-        Assertions.assertEquals(socioErrorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
+        Assertions.assertEquals(errorDTO.getError(), ErrorsCode.ERROR_INVALID_ARGUMENTS);
+        Assertions.assertEquals(errorDTO.getErrorFieldDTO().size(), 2);
+        Assertions.assertEquals(errorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
     }
 
     @Test
@@ -478,11 +477,11 @@ public class SocioControllerTest {
                 .andExpect(status().isBadRequest())
                 .andReturn();
 
-        SocioErrorDTO socioErrorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), SocioErrorDTO.class);
+        ErrorDTO errorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), ErrorDTO.class);
 
-        Assertions.assertEquals(socioErrorDTO.getError(), SocioErrorsCode.SOCIO_ERROR_INVALID_ARGUMENTS);
-        Assertions.assertEquals(socioErrorDTO.getErrorFieldDTO().size(), 2);
-        Assertions.assertEquals(socioErrorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
+        Assertions.assertEquals(errorDTO.getError(), ErrorsCode.ERROR_INVALID_ARGUMENTS);
+        Assertions.assertEquals(errorDTO.getErrorFieldDTO().size(), 2);
+        Assertions.assertEquals(errorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
     }
 
     @Test
@@ -495,11 +494,11 @@ public class SocioControllerTest {
                 .andExpect(status().isBadRequest())
                 .andReturn();
 
-        SocioErrorDTO socioErrorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), SocioErrorDTO.class);
+        ErrorDTO errorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), ErrorDTO.class);
 
-        Assertions.assertEquals(socioErrorDTO.getError(), SocioErrorsCode.SOCIO_ERROR_INVALID_ARGUMENTS);
-        Assertions.assertEquals(socioErrorDTO.getErrorFieldDTO().size(), 1);
-        Assertions.assertEquals(socioErrorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
+        Assertions.assertEquals(errorDTO.getError(), ErrorsCode.ERROR_INVALID_ARGUMENTS);
+        Assertions.assertEquals(errorDTO.getErrorFieldDTO().size(), 1);
+        Assertions.assertEquals(errorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
     }
 
     @Test
@@ -521,10 +520,10 @@ public class SocioControllerTest {
                 .andExpect(status().isNotFound())
                 .andReturn();
 
-        SocioErrorDTO socioErrorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), SocioErrorDTO.class);
+        ErrorDTO errorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), ErrorDTO.class);
 
-        Assertions.assertEquals(socioErrorDTO.getError(), SocioErrorsCode.SOCIO_EMPTY_RESULT_DATA_ACCESS);
-        Assertions.assertEquals(socioErrorDTO.getCode(), HttpStatus.NOT_FOUND.value());
+        Assertions.assertEquals(errorDTO.getError(), ErrorsCode.EMPTY_RESULT_DATA_ACCESS);
+        Assertions.assertEquals(errorDTO.getCode(), HttpStatus.NOT_FOUND.value());
     }
 
     @Test
@@ -563,7 +562,7 @@ public class SocioControllerTest {
 
         when(socioService.list()).thenReturn(socios);
 
-        MvcResult result = mockMvc.perform(get("/socios/"))
+        mockMvc.perform(get("/socios/"))
                 .andExpect(jsonPath("$[0].name", equalTo("gabriel")))
                 .andExpect(jsonPath("$[0].lastName", equalTo("moura")))
                 .andExpect(jsonPath("$[0].email", equalTo("gabriel123@gmail.com")))

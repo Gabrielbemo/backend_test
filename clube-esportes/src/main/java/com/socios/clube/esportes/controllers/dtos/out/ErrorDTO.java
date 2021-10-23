@@ -1,6 +1,6 @@
 package com.socios.clube.esportes.controllers.dtos.out;
 
-import com.socios.clube.esportes.models.enums.SocioErrorsCode;
+import com.socios.clube.esportes.models.enums.ErrorsCode;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,14 +13,14 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class SocioErrorDTO {
+public class ErrorDTO {
     private int code;
-    private SocioErrorsCode error;
+    private ErrorsCode error;
     private String message;
     private List<ErrorFieldDTO> errorFieldDTO;
 
-    public static SocioErrorDTO from(final HttpStatus httpStatus, final SocioErrorsCode osErrorCode, final String message, final List<ErrorFieldDTO> errorFieldDTO){
-        return SocioErrorDTO.builder()
+    public static ErrorDTO from(final HttpStatus httpStatus, final ErrorsCode osErrorCode, final String message, final List<ErrorFieldDTO> errorFieldDTO){
+        return ErrorDTO.builder()
                 .code(httpStatus.value())
                 .error(osErrorCode)
                 .message(message)

@@ -1,8 +1,8 @@
 package com.socios.clube.esportes.controllers;
 
 import com.socios.clube.esportes.controllers.dtos.out.ErrorFieldDTO;
-import com.socios.clube.esportes.controllers.dtos.out.SocioErrorDTO;
-import com.socios.clube.esportes.models.enums.SocioErrorsCode;
+import com.socios.clube.esportes.controllers.dtos.out.ErrorDTO;
+import com.socios.clube.esportes.models.enums.ErrorsCode;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
@@ -22,7 +22,7 @@ public class ExceptionHandle {
 
     @ExceptionHandler({MethodArgumentNotValidException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public SocioErrorDTO handlerMethodArgumentNotValidException(final MethodArgumentNotValidException ex){
+    public ErrorDTO handlerMethodArgumentNotValidException(final MethodArgumentNotValidException ex){
         List<ErrorFieldDTO> errorFieldDTO = ex
                 .getAllErrors()
                 .stream()
@@ -30,17 +30,17 @@ public class ExceptionHandle {
                 .map(ErrorFieldDTO::fromFieldError)
                 .collect(Collectors.toList());
 
-        SocioErrorDTO socioErrorDTO = SocioErrorDTO.from(BAD_REQUEST, SocioErrorsCode.SOCIO_ERROR_INVALID_ARGUMENTS,"Invalid Arguments", errorFieldDTO);
+        ErrorDTO errorDTO = ErrorDTO.from(BAD_REQUEST, ErrorsCode.ERROR_INVALID_ARGUMENTS,"Invalid Arguments", errorFieldDTO);
 
-        return socioErrorDTO;
+        return errorDTO;
     }
 
     @ExceptionHandler({EmptyResultDataAccessException.class})
     @ResponseStatus(NOT_FOUND)
-    public SocioErrorDTO handlerEmptyResultDataAccessException(final EmptyResultDataAccessException ex){
+    public ErrorDTO handlerEmptyResultDataAccessException(final EmptyResultDataAccessException ex){
 
-        SocioErrorDTO socioErrorDTO = SocioErrorDTO.from(NOT_FOUND, SocioErrorsCode.SOCIO_EMPTY_RESULT_DATA_ACCESS, ex.getLocalizedMessage(), null);
+        ErrorDTO errorDTO = ErrorDTO.from(NOT_FOUND, ErrorsCode.EMPTY_RESULT_DATA_ACCESS, ex.getLocalizedMessage(), null);
 
-        return socioErrorDTO;
+        return errorDTO;
     }
 }

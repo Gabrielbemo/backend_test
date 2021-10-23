@@ -10,7 +10,7 @@ import java.util.List;
 @Service
 public class SocioService {
 
-    private SocioRepository socioRepository;
+    private final SocioRepository socioRepository;
 
     @Autowired
     public SocioService(final SocioRepository socioRepository){

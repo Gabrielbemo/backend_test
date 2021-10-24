@@ -24,6 +24,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -531,7 +532,7 @@ public class SocioControllerTest {
         Socio socio = Socio.builder()
                 .name("gabriel")
                 .lastName("moura")
-                .email("as")
+                .email("gabriel1234@gmail.com")
                 .build();
 
         when(socioService.getById(1L)).thenReturn(socio);
@@ -539,6 +540,20 @@ public class SocioControllerTest {
         mockMvc.perform(get("/socios/1"))
                 .andExpect(status().isOk())
                 .andReturn();
+    }
+
+    @Test
+    public void when_getByIdWithInvalidId_expect_statusNotFound() throws Exception {
+        when(socioService.getById(0L)).thenThrow(new EntityNotFoundException());
+
+        MvcResult result = mockMvc.perform(get("/socios/0"))
+                .andExpect(status().isNotFound())
+                .andReturn();
+
+        ErrorDTO errorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), ErrorDTO.class);
+
+        Assertions.assertEquals(errorDTO.getError(), ErrorsCode.ENTITY_NOT_FOUND);
+        Assertions.assertEquals(errorDTO.getCode(), HttpStatus.NOT_FOUND.value());
     }
 
     @Test

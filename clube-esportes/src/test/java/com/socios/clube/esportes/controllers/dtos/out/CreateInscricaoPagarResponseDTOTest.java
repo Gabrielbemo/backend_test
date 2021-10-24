@@ -1,5 +1,6 @@
-package com.socios.clube.esportes.models;
+package com.socios.clube.esportes.controllers.dtos.out;
 
+import com.socios.clube.esportes.models.Inscricao;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -7,16 +8,17 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+
 import java.time.LocalDateTime;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class PagamentoInscricaoTest {
+public class CreateInscricaoPagarResponseDTOTest {
     private Validator validator;
 
-    PagamentoInscricao pagamentoInscricao;
+    CreateInscricaoPagarResponseDTO createInscricaoPagarResponseDTO;
 
     @BeforeEach
     public void setUp() {
@@ -27,8 +29,7 @@ public class PagamentoInscricaoTest {
                 .id(1L)
                 .build();
 
-        pagamentoInscricao = PagamentoInscricao.builder()
-                .id(1L)
+        createInscricaoPagarResponseDTO = CreateInscricaoPagarResponseDTO.builder()
                 .inscricao(inscricao)
                 .createAt(LocalDateTime.now())
                 .build();
@@ -36,25 +37,25 @@ public class PagamentoInscricaoTest {
 
     @Test
     public void when_validationsPassed_then_validationsIsEmpty(){
-        Set<ConstraintViolation<PagamentoInscricao>> violations = validator.validate(pagamentoInscricao);
+        Set<ConstraintViolation<CreateInscricaoPagarResponseDTO>> violations = validator.validate(createInscricaoPagarResponseDTO);
 
         assertTrue(violations.isEmpty());
     }
 
     @Test
-    public void when_setIdWithNull_then_validationsIsNotEmpty(){
-        pagamentoInscricao.setId(null);
+    public void when_setInscricaoWithNull_then_validationsIsNotEmpty(){
+        createInscricaoPagarResponseDTO.setInscricao(null);
 
-        Set<ConstraintViolation<PagamentoInscricao>> violations = validator.validate(pagamentoInscricao);
+        Set<ConstraintViolation<CreateInscricaoPagarResponseDTO>> violations = validator.validate(createInscricaoPagarResponseDTO);
 
         assertFalse(violations.isEmpty());
     }
 
     @Test
-    public void when_setInscricaoWithNull_then_validationsIsNotEmpty(){
-        pagamentoInscricao.setInscricao(null);
+    public void when_setCreateAtWithNull_then_validationsIsNotEmpty(){
+        createInscricaoPagarResponseDTO.setCreateAt(null);
 
-        Set<ConstraintViolation<PagamentoInscricao>> violations = validator.validate(pagamentoInscricao);
+        Set<ConstraintViolation<CreateInscricaoPagarResponseDTO>> violations = validator.validate(createInscricaoPagarResponseDTO);
 
         assertFalse(violations.isEmpty());
     }

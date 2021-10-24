@@ -3,14 +3,18 @@ package com.socios.clube.esportes.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.socios.clube.esportes.controllers.dtos.in.CreateInscricaoRequestDTO;
+import com.socios.clube.esportes.controllers.dtos.out.CreateInscricaoPagarResponseDTO;
 import com.socios.clube.esportes.controllers.dtos.out.CreateInscricaoResponseDTO;
 import com.socios.clube.esportes.controllers.dtos.out.ErrorDTO;
+import com.socios.clube.esportes.controllers.exceptions.PaymentAlreadyDoneException;
 import com.socios.clube.esportes.models.Inscricao;
+import com.socios.clube.esportes.models.PagamentoInscricao;
 import com.socios.clube.esportes.models.Socio;
 import com.socios.clube.esportes.models.enums.Esporte;
 import com.socios.clube.esportes.models.enums.ErrorsCode;
 import com.socios.clube.esportes.models.enums.StatusInscricao;
 import com.socios.clube.esportes.services.InscricaoService;
+import com.socios.clube.esportes.services.PagamentoInscricaoService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -52,6 +56,9 @@ public class InscricaoControllerTest {
 
     @Mock
     private InscricaoService inscricaoService;
+
+    @Mock
+    private PagamentoInscricaoService pagamentoInscricaoService;
 
     CreateInscricaoRequestDTO createInscricaoRequestDTO;
 
@@ -190,5 +197,61 @@ public class InscricaoControllerTest {
                 .andExpect(jsonPath("$.length()", equalTo(2)))
                 .andExpect(status().isOk())
                 .andReturn();
+    }
+
+    @Test
+    public void when_payWithSuccess_expect_statusCreated() throws Exception {
+        Inscricao inscricao = Inscricao.builder()
+                .id(1L)
+                .build();
+
+        LocalDateTime actualDate = LocalDateTime.now();
+
+        PagamentoInscricao pagamentoInscricao = PagamentoInscricao.builder()
+                .inscricao(inscricao)
+                .createAt(actualDate)
+                .build();
+
+        when(pagamentoInscricaoService.payInscricao(1L))
+                .thenReturn(pagamentoInscricao);
+
+        MvcResult result = mockMvc.perform(post("/inscricoes/1/pagar"))
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        CreateInscricaoPagarResponseDTO inscricaoPagarResponse = objectMapper.readValue(result.getResponse().getContentAsString(), CreateInscricaoPagarResponseDTO.class);
+
+        Assertions.assertEquals(inscricaoPagarResponse.getInscricao().getId(), inscricao.getId());
+        Assertions.assertEquals(inscricaoPagarResponse.getCreateAt(), actualDate);
+    }
+
+    @Test
+    public void when_payAPaymentAlreadyDone_expect_statusBadRequest() throws Exception {
+        when(pagamentoInscricaoService.payInscricao(1L))
+                .thenThrow(new PaymentAlreadyDoneException("Payment already done on this date"));
+
+        MvcResult result = mockMvc.perform(post("/inscricoes/1/pagar"))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+
+        ErrorDTO errorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), ErrorDTO.class);
+
+        Assertions.assertEquals(errorDTO.getError(), ErrorsCode.PAYMENT_ALREADY_DONE);
+        Assertions.assertEquals(errorDTO.getCode(), HttpStatus.BAD_REQUEST.value());
+    }
+
+    @Test
+    public void when_payWithInvalidId_expect_statusBadRequest() throws Exception {
+        when(pagamentoInscricaoService.payInscricao(0L))
+                .thenThrow(new EntityNotFoundException(String.format("Unable to find com.socios.clube.esportes.models.Inscricao with id %s", 0)));
+
+        MvcResult result = mockMvc.perform(post("/inscricoes/0/pagar"))
+                .andExpect(status().isNotFound())
+                .andReturn();
+
+        ErrorDTO errorDTO = objectMapper.readValue(result.getResponse().getContentAsString(), ErrorDTO.class);
+
+        Assertions.assertEquals(errorDTO.getError(), ErrorsCode.ENTITY_NOT_FOUND);
+        Assertions.assertEquals(errorDTO.getCode(), HttpStatus.NOT_FOUND.value());
     }
 }

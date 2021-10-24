@@ -2,7 +2,6 @@ package com.socios.clube.esportes.services;
 
 import com.socios.clube.esportes.models.Socio;
 import com.socios.clube.esportes.repositories.SocioRepository;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,7 +10,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.dao.EmptyResultDataAccessException;
 
+import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.isA;
@@ -356,9 +358,7 @@ public class SocioServiceTest {
     public void when_deleteWithSuccess_then_doesNotReturnException() {
         doNothing().when(socioRepository).deleteById(socio.getId());
 
-        assertDoesNotThrow(() -> {
-            socioService.deleteById(socio.getId());
-        });
+        assertDoesNotThrow(() -> socioService.deleteById(socio.getId()));
 
         verify(socioRepository).deleteById(socio.getId());
     }
@@ -369,10 +369,49 @@ public class SocioServiceTest {
                 .when(socioRepository)
                 .deleteById(0L);
 
-        assertThrows(EmptyResultDataAccessException.class, () -> {
-            socioService.deleteById(0L);
-        });
+        assertThrows(EmptyResultDataAccessException.class, () -> socioService.deleteById(0L));
 
         verify(socioRepository).deleteById(0L);
+    }
+
+    @Test
+    public void when_getByIdWithSuccess_then_doesNotReturnException() {
+        when(socioRepository.getById(socio.getId())).thenReturn(socio);
+
+        assertDoesNotThrow(() -> {
+            Socio socioCreated = socioService.getById(socio.getId());
+
+            assertEquals(socio, socioCreated);
+
+        });
+
+        verify(socioRepository).getById(socio.getId());
+    }
+
+    @Test
+    public void when_getByIdWithInvalidId_then_doesNotReturnException() {
+        when(socioRepository.getById(0L)).thenThrow(new EntityNotFoundException());
+
+        assertThrows(EntityNotFoundException.class, () -> socioService.getById(0L));
+
+        verify(socioRepository).getById(0L);
+    }
+
+    @Test
+    public void when_getListWithSuccess_then_doesNotReturnException() {
+        List<Socio> socioList = new ArrayList<>();
+
+        socioList.add(socio);
+
+        when(socioRepository.findAll()).thenReturn(socioList);
+
+        assertDoesNotThrow(() -> {
+            List<Socio> socioListReturned = socioService.list();
+
+            assertEquals(socioListReturned, socioList);
+
+        });
+
+        verify(socioRepository).findAll();
     }
 }

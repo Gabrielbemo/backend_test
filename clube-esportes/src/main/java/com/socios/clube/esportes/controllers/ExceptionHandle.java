@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,6 +41,15 @@ public class ExceptionHandle {
     public ErrorDTO handlerEmptyResultDataAccessException(final EmptyResultDataAccessException ex){
 
         ErrorDTO errorDTO = ErrorDTO.from(NOT_FOUND, ErrorsCode.EMPTY_RESULT_DATA_ACCESS, ex.getLocalizedMessage(), null);
+
+        return errorDTO;
+    }
+
+    @ExceptionHandler({EntityNotFoundException.class})
+    @ResponseStatus(NOT_FOUND)
+    public ErrorDTO handlerEntityNotFoundException(final EntityNotFoundException ex){
+
+        ErrorDTO errorDTO = ErrorDTO.from(NOT_FOUND, ErrorsCode.ENTITY_NOT_FOUND, ex.getLocalizedMessage(), null);
 
         return errorDTO;
     }

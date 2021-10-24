@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class InscricaoService {
@@ -16,6 +17,14 @@ public class InscricaoService {
     @Autowired
     public InscricaoService(final InscricaoRepository inscricaoRepository){
         this.inscricaoRepository = inscricaoRepository;
+    }
+
+    public Inscricao getById(Long id){
+        return inscricaoRepository.getById(id);
+    }
+
+    public List<Inscricao> list(){
+        return inscricaoRepository.findAll();
     }
 
     public Inscricao create(final Inscricao inscricao){

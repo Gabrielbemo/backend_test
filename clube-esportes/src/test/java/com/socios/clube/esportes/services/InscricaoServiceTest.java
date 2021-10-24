@@ -12,7 +12,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.isA;
@@ -107,5 +110,46 @@ public class InscricaoServiceTest {
         assertDoesNotThrow(() -> inscricaoService.create(inscricao));
 
         verify(inscricaoRepository).save(isA(Inscricao.class));
+    }
+
+    @Test
+    public void when_getByIdWithSuccess_then_doesNotReturnException() {
+        when(inscricaoRepository.getById(inscricao.getId())).thenReturn(inscricao);
+
+        assertDoesNotThrow(() -> {
+            Inscricao inscricaoCreated = inscricaoService.getById(inscricao.getId());
+
+            assertEquals(inscricao, inscricaoCreated);
+
+        });
+
+        verify(inscricaoRepository).getById(inscricao.getId());
+    }
+
+    @Test
+    public void when_getByIdWithInvalidId_then_doesNotReturnException() {
+        when(inscricaoRepository.getById(0L)).thenThrow(new EntityNotFoundException());
+
+        assertThrows(EntityNotFoundException.class, () -> inscricaoService.getById(0L));
+
+        verify(inscricaoRepository).getById(0L);
+    }
+
+    @Test
+    public void when_getListWithSuccess_then_doesNotReturnException() {
+        List<Inscricao> inscricaoList = new ArrayList<>();
+
+        inscricaoList.add(inscricao);
+
+        when(inscricaoRepository.findAll()).thenReturn(inscricaoList);
+
+        assertDoesNotThrow(() -> {
+            List<Inscricao> inscricaoListReturned = inscricaoService.list();
+
+            assertEquals(inscricaoListReturned, inscricaoList);
+
+        });
+
+        verify(inscricaoRepository).findAll();
     }
 }

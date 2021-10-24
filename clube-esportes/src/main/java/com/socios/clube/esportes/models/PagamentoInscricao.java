@@ -26,7 +26,6 @@ public class PagamentoInscricao {
     private Inscricao inscricao;
 
     @Column(name = "create_at")
-    @NotNull(message = "createAt cannot be null.")
     private LocalDateTime createAt;
 
 }

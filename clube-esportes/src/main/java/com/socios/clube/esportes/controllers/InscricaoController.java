@@ -1,10 +1,14 @@
 package com.socios.clube.esportes.controllers;
 
 import com.socios.clube.esportes.controllers.dtos.in.CreateInscricaoRequestDTO;
+import com.socios.clube.esportes.controllers.dtos.out.CreateInscricaoPagarResponseDTO;
 import com.socios.clube.esportes.controllers.dtos.out.CreateInscricaoResponseDTO;
 import com.socios.clube.esportes.controllers.dtos.out.ListInscricaoResponseDTO;
+import com.socios.clube.esportes.controllers.exceptions.PaymentAlreadyDoneException;
 import com.socios.clube.esportes.models.Inscricao;
+import com.socios.clube.esportes.models.PagamentoInscricao;
 import com.socios.clube.esportes.services.InscricaoService;
+import com.socios.clube.esportes.services.PagamentoInscricaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,10 +23,12 @@ import java.util.stream.Collectors;
 public class InscricaoController {
 
     private final InscricaoService inscricaoService;
+    private final PagamentoInscricaoService pagamentoInscricaoService;
 
     @Autowired
-    public InscricaoController(final InscricaoService inscricaoService){
+    public InscricaoController(final InscricaoService inscricaoService, final PagamentoInscricaoService pagamentoInscricaoService){
         this.inscricaoService = inscricaoService;
+        this.pagamentoInscricaoService = pagamentoInscricaoService;
     }
 
     @GetMapping("/{id}")
@@ -44,6 +50,14 @@ public class InscricaoController {
         Inscricao inscricao = inscricaoService.create(createInscricaoRequestDTO.toEntity());
         return new ResponseEntity<CreateInscricaoResponseDTO>(
                 CreateInscricaoResponseDTO.fromEntity(inscricao),
+                HttpStatus.CREATED);
+    }
+
+    @PostMapping("/{id}/pagar")
+    public ResponseEntity<CreateInscricaoPagarResponseDTO> pay(@PathVariable final long id) throws PaymentAlreadyDoneException {
+        PagamentoInscricao pagamentoInscricao = pagamentoInscricaoService.payInscricao(id);
+        return new ResponseEntity<CreateInscricaoPagarResponseDTO>(
+                CreateInscricaoPagarResponseDTO.fromEntity(pagamentoInscricao),
                 HttpStatus.CREATED);
     }
 }

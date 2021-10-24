@@ -2,6 +2,7 @@ package com.socios.clube.esportes.controllers;
 
 import com.socios.clube.esportes.controllers.dtos.out.ErrorFieldDTO;
 import com.socios.clube.esportes.controllers.dtos.out.ErrorDTO;
+import com.socios.clube.esportes.controllers.exceptions.PaymentAlreadyDoneException;
 import com.socios.clube.esportes.models.enums.ErrorsCode;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -50,6 +51,15 @@ public class ExceptionHandle {
     public ErrorDTO handlerEntityNotFoundException(final EntityNotFoundException ex){
 
         ErrorDTO errorDTO = ErrorDTO.from(NOT_FOUND, ErrorsCode.ENTITY_NOT_FOUND, ex.getLocalizedMessage(), null);
+
+        return errorDTO;
+    }
+
+    @ExceptionHandler({PaymentAlreadyDoneException.class})
+    @ResponseStatus(BAD_REQUEST)
+    public ErrorDTO handlerPaymentAlreadyDoneException(final PaymentAlreadyDoneException ex){
+
+        ErrorDTO errorDTO = ErrorDTO.from(BAD_REQUEST, ErrorsCode.PAYMENT_ALREADY_DONE, ex.getLocalizedMessage(), null);
 
         return errorDTO;
     }

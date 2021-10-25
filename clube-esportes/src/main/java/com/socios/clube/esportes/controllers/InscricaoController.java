@@ -60,4 +60,10 @@ public class InscricaoController {
                 CreateInscricaoPagarResponseDTO.fromEntity(pagamentoInscricao),
                 HttpStatus.CREATED);
     }
+
+    @PutMapping("/{id}/check")
+    public ResponseEntity checkPayments(@PathVariable final long id) {
+        pagamentoInscricaoService.checkPayments(id);
+        return ResponseEntity.noContent().build();
+    }
 }

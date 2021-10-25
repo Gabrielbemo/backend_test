@@ -64,4 +64,15 @@ public class PagamentoInscricaoServiceTest {
         verify(inscricaoRepository).findById(1L);
         verify(pagamentoInscricaoRepository).findByMonthAndYear(LocalDateTime.now().getMonth().getValue(), LocalDateTime.now().getYear());
     }
+
+    @Test
+    public void when_checkPaymentsWithSuccess_then_doesNotReturnException() {
+        when(inscricaoRepository.findById(0L)).thenReturn(Optional.empty());
+
+        assertDoesNotThrow(() -> {
+            pagamentoInscricaoService.checkPayments(0L);
+        });
+
+        verify(inscricaoRepository).findById(0L);
+    }
 }

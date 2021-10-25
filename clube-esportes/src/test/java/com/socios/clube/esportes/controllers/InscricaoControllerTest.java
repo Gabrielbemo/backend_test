@@ -36,9 +36,8 @@ import java.util.List;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.mockito.ArgumentMatchers.isA;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -253,5 +252,13 @@ public class InscricaoControllerTest {
 
         Assertions.assertEquals(errorDTO.getError(), ErrorsCode.ENTITY_NOT_FOUND);
         Assertions.assertEquals(errorDTO.getCode(), HttpStatus.NOT_FOUND.value());
+    }
+
+    @Test
+    public void when_checkWithSuccess_expect_statusNoContent() throws Exception {
+        doNothing().when(pagamentoInscricaoService).checkPayments(1L);
+
+        mockMvc.perform(put("/inscricoes/1/check"))
+                .andExpect(status().isNoContent());
     }
 }

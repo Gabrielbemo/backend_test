@@ -53,7 +53,7 @@ docker-compose up app-db
     [GET] /socios/{id}
 * para deletar um sócio:
     
-    [DELETE] /socios/
+    [DELETE] /socios/{id}
 
 #
 ## /inscricoes/
@@ -69,8 +69,8 @@ docker-compose up app-db
     [GET] /inscricoes/{id}
 * para pagar uma parcela da inscrição:
     
-    [POST] /inscricoes/{id}/pay
+    [POST] /inscricoes/{id}/pagar
 * para verificar se uma inscrição está atrasada e desativar ou ativar caso esteja em dia:
     
-    [POST] /inscricoes/{id}/pay
+    [POST] /inscricoes/{id}/check
 

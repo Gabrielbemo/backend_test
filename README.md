@@ -32,7 +32,7 @@ docker-compose up app-db
 
 #
 ## MER
-![mer](.\resources\mer.png)
+![mer](/resources/mer.png)
 #
 
 ## Explicando as rotas

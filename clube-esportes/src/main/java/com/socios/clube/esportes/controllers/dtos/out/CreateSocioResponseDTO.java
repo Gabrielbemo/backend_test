@@ -13,6 +13,9 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateSocioResponseDTO {
+
+    private Long id;
+
     @NotBlank(message = "name cannot be blank.")
     @NotNull(message = "name cannot be null.")
     private String name;
@@ -28,6 +31,7 @@ public class CreateSocioResponseDTO {
 
     public static CreateSocioResponseDTO fromEntity(final Socio socio){
         return CreateSocioResponseDTO.builder()
+                .id(socio.getId())
                 .name(socio.getName())
                 .lastName(socio.getLastName())
                 .email(socio.getEmail())

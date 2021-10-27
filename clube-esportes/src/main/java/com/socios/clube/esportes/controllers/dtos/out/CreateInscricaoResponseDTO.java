@@ -15,6 +15,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class CreateInscricaoResponseDTO {
 
+    private Long id;
+
     @NotNull
     private Esporte esporte;
 
@@ -26,6 +28,7 @@ public class CreateInscricaoResponseDTO {
 
     public static CreateInscricaoResponseDTO fromEntity(final Inscricao inscricao){
         return CreateInscricaoResponseDTO.builder()
+                .id(inscricao.getId())
                 .esporte(inscricao.getEsporte())
                 .statusInscricao(inscricao.getStatusInscricao())
                 .createAt(inscricao.getCreateAt())

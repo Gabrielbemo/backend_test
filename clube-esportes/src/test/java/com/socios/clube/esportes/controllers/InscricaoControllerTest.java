@@ -71,13 +71,10 @@ public class InscricaoControllerTest {
         objectMapper = new ObjectMapper()
                 .registerModule(new JavaTimeModule());
 
-        Socio socio = Socio.builder()
-                .id(1L)
-                .build();
 
         createInscricaoRequestDTO = CreateInscricaoRequestDTO.builder()
                 .esporte(Esporte.BASQUETE)
-                .socio(socio)
+                .socioId(1L)
                 .build();
 
     }
@@ -120,7 +117,7 @@ public class InscricaoControllerTest {
 
     @Test
     public void when_createWithNullSocio_expect_statusBadRequest() throws Exception {
-        createInscricaoRequestDTO.setSocio(null);
+        createInscricaoRequestDTO.setSocioId(null);
 
         MvcResult result = mockMvc.perform(post("/inscricoes/")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -137,7 +134,10 @@ public class InscricaoControllerTest {
 
     @Test
     public void when_getByIdWithSuccess_expect_statusOk() throws Exception {
+
+
         Inscricao inscricao = Inscricao.builder()
+                .socio(new Socio(1L))
                 .esporte(Esporte.BASQUETE)
                 .statusInscricao(StatusInscricao.DESATIVADA)
                 .createAt(LocalDateTime.now())
@@ -171,12 +171,14 @@ public class InscricaoControllerTest {
         LocalDateTime actualDate = LocalDateTime.now();
 
         Inscricao inscricao1 = Inscricao.builder()
+                .socio(new Socio(1L))
                 .esporte(Esporte.FUTEBOL)
                 .statusInscricao(StatusInscricao.ATIVA)
                 .createAt(actualDate)
                 .build();
 
         Inscricao inscricao2 = Inscricao.builder()
+                .socio(new Socio(2L))
                 .esporte(Esporte.BASQUETE)
                 .statusInscricao(StatusInscricao.DESATIVADA)
                 .createAt(actualDate)

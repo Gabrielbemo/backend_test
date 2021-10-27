@@ -15,17 +15,15 @@ Como é um clube, existe **uma contribuição mensal para prática dos esportes*
 
  * Após clonar o projeto execute o comando dentro da pasta clube-esportes para gerar o jar da aplicação: 
  ```
- mvn clean install 
+ mvnw clean install 
 ```
-
-* Execute o comando para buildar e subir o container da aplicação
-```
-docker-compose up app-service
-```
-
 * Execute o comando para buildar e subir o container do banco de dados
 ```
 docker-compose up app-db
+```
+* Execute o comando para buildar e subir o container da aplicação
+```
+docker-compose up app-service
 ```
 
   * Pronto a aplicação está rodando na porta 8080 para acessar o Swagger acesse a url: (http://localhost:8080/swagger-ui/index.html) 

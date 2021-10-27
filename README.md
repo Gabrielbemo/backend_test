@@ -26,7 +26,7 @@ docker-compose up app-db
 docker-compose up app-service
 ```
 
-  * Pronto a aplicação está rodando na porta 8080 para acessar o Swagger acesse a url: (http://localhost:8080/swagger-ui/index.html) 
+  * Pronto, a aplicação está rodando na porta 8080, acesse o Swagger na url: (http://localhost:8080/swagger-ui/index.html) 
 
 #
 ## MER

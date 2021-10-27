@@ -18,12 +18,12 @@ public class CreateInscricaoRequestDTO {
     private Esporte esporte;
 
     @NotNull
-    private Socio socio;
+    private Long socioId;
 
     public Inscricao toEntity(){
         return Inscricao.builder()
                 .esporte(esporte)
-                .socio(socio)
+                .socio(new Socio(socioId))
                 .build();
     }
 }

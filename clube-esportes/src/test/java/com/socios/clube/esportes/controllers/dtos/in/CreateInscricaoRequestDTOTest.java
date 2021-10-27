@@ -25,13 +25,9 @@ public class CreateInscricaoRequestDTOTest {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
 
-        Socio socio = Socio.builder()
-                .id(1L)
-                .build();
-
         createInscricaoRequestDTO = CreateInscricaoRequestDTO.builder()
                 .esporte(Esporte.BASQUETE)
-                .socio(socio)
+                .socioId(1L)
                 .build();
     }
 
@@ -53,7 +49,7 @@ public class CreateInscricaoRequestDTOTest {
 
     @Test
     public void when_setSocioWithNull_then_validationsIsNotEmpty(){
-        createInscricaoRequestDTO.setSocio(null);
+        createInscricaoRequestDTO.setSocioId(null);
 
         Set<ConstraintViolation<CreateInscricaoRequestDTO>> violations = validator.validate(createInscricaoRequestDTO);
 

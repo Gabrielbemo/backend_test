@@ -15,6 +15,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class ListInscricaoResponseDTO {
 
+    private Long id;
+
+    private Long socioId;
+
     @NotNull
     private Esporte esporte;
 
@@ -26,6 +30,8 @@ public class ListInscricaoResponseDTO {
 
     public static ListInscricaoResponseDTO fromEntity(final Inscricao inscricao){
         return ListInscricaoResponseDTO.builder()
+                .id(inscricao.getId())
+                .socioId(inscricao.getSocio().getId())
                 .esporte(inscricao.getEsporte())
                 .statusInscricao(inscricao.getStatusInscricao())
                 .createAt(inscricao.getCreateAt())

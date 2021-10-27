@@ -17,6 +17,10 @@ import java.time.LocalDateTime;
 @Entity
 public class Socio {
 
+    public Socio(Long id){
+        this.id = id;
+    }
+
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)

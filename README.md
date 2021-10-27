@@ -40,7 +40,7 @@ docker-compose up app-service
 * para cadastrar um socio:
 
     [POST] /socios/
-* para atualizar um sócio:
+* para atualizar um sócio o padão para telefone é "(12)1234-1234" ou "(12)12345-1234":
     
     [PUT] /socios/{id}
 * para listar os sócios:

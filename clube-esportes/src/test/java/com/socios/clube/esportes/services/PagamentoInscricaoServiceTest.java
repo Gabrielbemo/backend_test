@@ -50,7 +50,7 @@ public class PagamentoInscricaoServiceTest {
     public void when_createWithSuccess_then_doesNotReturnException() {
         when(inscricaoRepository.findById(1L)).thenReturn(Optional.of(inscricao));
         List<PagamentoInscricao> pagamentoInscricoes = new ArrayList<PagamentoInscricao>();
-        when(pagamentoInscricaoRepository.findByMonthAndYear(LocalDateTime.now().getMonth().getValue(), LocalDateTime.now().getYear())).thenReturn(Optional.of(pagamentoInscricoes));
+        when(pagamentoInscricaoRepository.findByMonthAndYear(1L, LocalDateTime.now().getMonth().getValue(), LocalDateTime.now().getYear())).thenReturn(Optional.of(pagamentoInscricoes));
         when(pagamentoInscricaoRepository.save(isA(PagamentoInscricao.class))).thenReturn(null);
         when(pagamentoInscricaoRepository.getById(null)).thenReturn(pagamentoInscricao);
 
@@ -62,7 +62,7 @@ public class PagamentoInscricaoServiceTest {
         });
 
         verify(inscricaoRepository).findById(1L);
-        verify(pagamentoInscricaoRepository).findByMonthAndYear(LocalDateTime.now().getMonth().getValue(), LocalDateTime.now().getYear());
+        verify(pagamentoInscricaoRepository).findByMonthAndYear(1L, LocalDateTime.now().getMonth().getValue(), LocalDateTime.now().getYear());
     }
 
     @Test

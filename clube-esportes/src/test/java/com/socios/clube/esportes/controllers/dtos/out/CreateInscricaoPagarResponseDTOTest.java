@@ -25,12 +25,8 @@ public class CreateInscricaoPagarResponseDTOTest {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
 
-        Inscricao inscricao = Inscricao.builder()
-                .id(1L)
-                .build();
-
         createInscricaoPagarResponseDTO = CreateInscricaoPagarResponseDTO.builder()
-                .inscricao(inscricao)
+                .inscricaoId(1L)
                 .createAt(LocalDateTime.now())
                 .build();
     }
@@ -44,7 +40,7 @@ public class CreateInscricaoPagarResponseDTOTest {
 
     @Test
     public void when_setInscricaoWithNull_then_validationsIsNotEmpty(){
-        createInscricaoPagarResponseDTO.setInscricao(null);
+        createInscricaoPagarResponseDTO.setInscricaoId(null);
 
         Set<ConstraintViolation<CreateInscricaoPagarResponseDTO>> violations = validator.validate(createInscricaoPagarResponseDTO);
 

@@ -17,7 +17,7 @@ public class CreateInscricaoPagarResponseDTO {
     private Long id;
 
     @NotNull(message = "inscricao cannot be null.")
-    private Inscricao inscricao;
+    private Long inscricaoId;
 
     @NotNull(message = "inscricao cannot be null.")
     private LocalDateTime createAt;
@@ -25,7 +25,7 @@ public class CreateInscricaoPagarResponseDTO {
     public static CreateInscricaoPagarResponseDTO fromEntity(final PagamentoInscricao pagamentoInscricao){
         return CreateInscricaoPagarResponseDTO.builder()
                 .id(pagamentoInscricao.getId())
-                .inscricao(Inscricao.builder().id(pagamentoInscricao.getInscricao().getId()).build())
+                .inscricaoId(Inscricao.builder().id(pagamentoInscricao.getInscricao().getId()).build().getId())
                 .createAt(pagamentoInscricao.getCreateAt())
                 .build();
     }

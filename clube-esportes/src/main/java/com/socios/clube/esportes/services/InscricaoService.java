@@ -8,23 +8,30 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class InscricaoService {
 
     private final InscricaoRepository inscricaoRepository;
+    private final PagamentoInscricaoService pagamentoInscricaoService;
 
     @Autowired
-    public InscricaoService(final InscricaoRepository inscricaoRepository){
+    public InscricaoService(final InscricaoRepository inscricaoRepository, final PagamentoInscricaoService pagamentoInscricaoService){
         this.inscricaoRepository = inscricaoRepository;
+        this.pagamentoInscricaoService = pagamentoInscricaoService;
     }
 
     public Inscricao getById(Long id){
+        pagamentoInscricaoService.checkPayments(id);
         return inscricaoRepository.getById(id);
     }
 
     public List<Inscricao> list(){
-        return inscricaoRepository.findAll();
+        return inscricaoRepository.findAll().stream().map(inscricao -> {
+            pagamentoInscricaoService.checkPayments(inscricao.getId());
+            return inscricao;
+        }).collect(Collectors.toList());
     }
 
     public Inscricao create(final Inscricao inscricao){

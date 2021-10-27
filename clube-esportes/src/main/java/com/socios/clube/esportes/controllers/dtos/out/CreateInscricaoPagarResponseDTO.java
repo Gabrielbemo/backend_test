@@ -14,6 +14,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class CreateInscricaoPagarResponseDTO {
 
+    private Long id;
+
     @NotNull(message = "inscricao cannot be null.")
     private Inscricao inscricao;
 
@@ -22,6 +24,7 @@ public class CreateInscricaoPagarResponseDTO {
 
     public static CreateInscricaoPagarResponseDTO fromEntity(final PagamentoInscricao pagamentoInscricao){
         return CreateInscricaoPagarResponseDTO.builder()
+                .id(pagamentoInscricao.getId())
                 .inscricao(Inscricao.builder().id(pagamentoInscricao.getInscricao().getId()).build())
                 .createAt(pagamentoInscricao.getCreateAt())
                 .build();

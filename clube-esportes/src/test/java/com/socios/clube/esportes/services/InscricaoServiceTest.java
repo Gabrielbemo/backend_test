@@ -30,6 +30,9 @@ public class InscricaoServiceTest {
     @Mock
     private InscricaoRepository inscricaoRepository;
 
+    @Mock
+    private PagamentoInscricaoService pagamentoInscricaoService;
+
     Inscricao inscricao;
 
     @BeforeEach
@@ -114,6 +117,7 @@ public class InscricaoServiceTest {
 
     @Test
     public void when_getByIdWithSuccess_then_doesNotReturnException() {
+        doNothing().when(pagamentoInscricaoService).checkPayments(1L);
         when(inscricaoRepository.getById(inscricao.getId())).thenReturn(inscricao);
 
         assertDoesNotThrow(() -> {
@@ -128,6 +132,7 @@ public class InscricaoServiceTest {
 
     @Test
     public void when_getByIdWithInvalidId_then_doesNotReturnException() {
+        doNothing().when(pagamentoInscricaoService).checkPayments(0L);
         when(inscricaoRepository.getById(0L)).thenThrow(new EntityNotFoundException());
 
         assertThrows(EntityNotFoundException.class, () -> inscricaoService.getById(0L));
@@ -137,6 +142,7 @@ public class InscricaoServiceTest {
 
     @Test
     public void when_getListWithSuccess_then_doesNotReturnException() {
+        doNothing().when(pagamentoInscricaoService).checkPayments(inscricao.getId());
         List<Inscricao> inscricaoList = new ArrayList<>();
 
         inscricaoList.add(inscricao);

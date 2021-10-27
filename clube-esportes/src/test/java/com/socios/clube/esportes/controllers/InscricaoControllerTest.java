@@ -222,7 +222,7 @@ public class InscricaoControllerTest {
 
         CreateInscricaoPagarResponseDTO inscricaoPagarResponse = objectMapper.readValue(result.getResponse().getContentAsString(), CreateInscricaoPagarResponseDTO.class);
 
-        Assertions.assertEquals(inscricaoPagarResponse.getInscricao().getId(), inscricao.getId());
+        Assertions.assertEquals(inscricaoPagarResponse.getInscricaoId(), inscricao.getId());
         Assertions.assertEquals(inscricaoPagarResponse.getCreateAt(), actualDate);
     }
 

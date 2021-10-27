@@ -33,13 +33,15 @@ public class PagamentoInscricaoService {
         int month = LocalDateTime.now().getMonth().getValue();
         int year = LocalDateTime.now().getYear();
 
-        Optional<List<PagamentoInscricao>> pagamentoInscricoes = pagamentoInscricaoRepository.findByMonthAndYear(month, year);
+        Optional<List<PagamentoInscricao>> pagamentoInscricoes = pagamentoInscricaoRepository.findByMonthAndYear(inscricao.get().getId(), month, year);
         if(pagamentoInscricoes.get().isEmpty()){
             PagamentoInscricao newPagamentoInscricao = PagamentoInscricao.builder()
                             .inscricao(inscricao.get())
                             .createAt(LocalDateTime.now())
                             .build();
             pagamentoInscricaoRepository.save(newPagamentoInscricao);
+            inscricao.get().setStatusInscricao(StatusInscricao.ATIVA);
+            inscricaoRepository.save(inscricao.get());
             return pagamentoInscricaoRepository.getById(newPagamentoInscricao.getId());
         }else {
             throw new PaymentAlreadyDoneException("Payment already done on this date");

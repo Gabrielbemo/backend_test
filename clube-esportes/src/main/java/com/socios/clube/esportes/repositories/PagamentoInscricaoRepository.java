@@ -13,8 +13,8 @@ import java.util.Optional;
 @Repository
 public interface PagamentoInscricaoRepository extends JpaRepository<PagamentoInscricao, Long> {
 
-    @Query(value = "select pi.id from pagamento_inscricao pi where MONTH(pi.create_at) = :month AND YEAR(pi.create_at) = :year", nativeQuery = true)
-    Optional<List<PagamentoInscricao>> findByMonthAndYear(@Param("month") final int month, @Param("year") final int year);
+    @Query(value = "select pi.* from pagamento_inscricao pi where pi.fk_inscricao = :inscricao_id AND MONTH(pi.create_at) = :month AND YEAR(pi.create_at) = :year", nativeQuery = true)
+    Optional<List<PagamentoInscricao>> findByMonthAndYear(@Param("inscricao_id") final long inscricao_id, @Param("month") final int month, @Param("year") final int year);
 
     @Query(value = "select pi from PagamentoInscricao pi WHERE pi.createAt BETWEEN :startDate AND :endDate")
     Optional<List<PagamentoInscricao>> findByPeriod(@Param("startDate") final LocalDateTime startDate, @Param("endDate") final LocalDateTime endDate);
